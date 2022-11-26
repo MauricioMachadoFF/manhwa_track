@@ -1,11 +1,21 @@
 import 'package:dartz/dartz.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:manhwa_track/core/error.dart';
 import 'package:manhwa_track/core/failures.dart';
 
 @immutable
 abstract class ValueObject<T> {
   const ValueObject();
   Either<ValueFailure<T>, T> get value;
+
+  /// Throws [UnexpectedValueError] containing the [ValueFailure]
+  T getOrCrash() {
+    // id = identity - same as writing (right) => right
+    return value.fold(
+      (failure) => throw UnexpectedValueError(failure),
+      id,
+    );
+  }
 
   bool isValid() => value.isRight();
 
