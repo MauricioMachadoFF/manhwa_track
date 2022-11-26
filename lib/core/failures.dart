@@ -11,6 +11,10 @@ abstract class Failure extends Equatable {
   List get props => [message];
 }
 
+class ServerFailure extends Failure {
+  const ServerFailure({required super.message});
+}
+
 /// Used for value objects
 abstract class ValueFailure<T> extends Failure {
   const ValueFailure({required super.message});
