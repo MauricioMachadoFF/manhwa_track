@@ -2,13 +2,14 @@ import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:injectable/injectable.dart';
 import 'package:manhwa_track/authentication/domain/auth_facade_interface.dart';
 import 'package:manhwa_track/authentication/domain/auth_failures.dart';
-import 'package:manhwa_track/core/error.dart';
 import 'package:manhwa_track/core/failures.dart';
 import 'package:manhwa_track/authentication/domain/value_objects/password/password_vo.dart';
 import 'package:manhwa_track/authentication/domain/value_objects/email_address/email_address_vo.dart';
 
+@LazySingleton(as: AuthFacadeInterface)
 class FirebaseAuthFacade implements AuthFacadeInterface {
   final FirebaseAuth _firebaseAuth;
   final GoogleSignIn _googleSignIn;
