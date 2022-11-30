@@ -1,6 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:manhwa_track/authentication/welcome_page.dart';
+import 'package:manhwa_track/authentication/sign_in_up_page.dart';
 import 'package:manhwa_track/core/injection.dart';
 
 void main() async {
@@ -26,7 +26,7 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const WelcomePage(),
+      home: const SignInUpPage(),
     );
   }
 }
