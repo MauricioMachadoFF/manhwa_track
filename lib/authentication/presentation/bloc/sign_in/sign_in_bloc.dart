@@ -14,57 +14,84 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
   SignInBloc(
     this._authFacade,
   ) : super(const SignInState.initial()) {
-    on<SignInEvent>((event, emit) async {
-      await event.when(
-        registerWithEmailAndPassword: (emailAddress, password) async {
-          emit(const SignInState.initial());
-          if (emailAddress.isValid() && password.isValid()) {
-            emit(const SignInState.loading());
-            final signedInOrFailure =
-                await _authFacade.registerWithEmailAndPassword(
-                    emailAddress: emailAddress, password: password);
-            signedInOrFailure.fold(
-              (_) => const SignInState.error(
-                errorMessage: 'Request to register failed',
+    on<SignInEvent>(
+      (event, emit) async {
+        await event.when(
+          registerWithEmailAndPassword: (emailAddress, password) async {
+            emit(const SignInState.initial());
+            if (emailAddress.isValid() && password.isValid()) {
+              emit(const SignInState.loading());
+              final signedInOrFailure =
+                  await _authFacade.registerWithEmailAndPassword(
+                      emailAddress: emailAddress, password: password);
+              emit(
+                signedInOrFailure.fold(
+                  (failure) {
+                    if (failure is EmailAlreadyInUseFailure) {
+                      return SignInState.error(errorMessage: failure.message);
+                    } else {
+                      return _generalErroState();
+                    }
+                  },
+                  (_) => const SignInState.signedIn(),
+                ),
+              );
+            }
+            emit(_emptyErroState());
+          },
+          signInWithEmailAndPassword: (emailAddress, password) async {
+            emit(const SignInState.initial());
+            if (emailAddress.isValid() && password.isValid()) {
+              emit(const SignInState.loading());
+              final signedInOrFailure =
+                  await _authFacade.signInWithEmailAndPassword(
+                emailAddress: emailAddress,
+                password: password,
+              );
+              emit(
+                signedInOrFailure.fold(
+                  (failure) {
+                    if (failure is InvalidEmailAndPasswordCombinationFailure ||
+                        failure is NoUserWithThatEmailFailure) {
+                      return SignInState.error(errorMessage: failure.message);
+                    } else {
+                      return _generalErroState();
+                    }
+                  },
+                  (_) => const SignInState.signedIn(),
+                ),
+              );
+            }
+            emit(_emptyErroState());
+          },
+          signInWithGoogle: () async {
+            final signedInOrFailure = await _authFacade.signInWithGoogle();
+            emit(
+              signedInOrFailure.fold(
+                (failure) {
+                  if (failure is CancelledByUserFailure) {
+                    return SignInState.error(errorMessage: failure.message);
+                  }
+                  return _emptyErroState();
+                },
+                (_) => const SignInState.signedIn(),
               ),
-              (_) => const SignInState.signedIn(),
             );
-          }
-          emit(const SignInState.error(errorMessage: ''));
-        },
-        signInWithEmailAndPassword: (emailAddress, password) async {
-          emit(const SignInState.initial());
-          if (emailAddress.isValid() && password.isValid()) {
-            emit(const SignInState.loading());
-            final signedInOrFailure =
-                await _authFacade.signInWithEmailAndPassword(
-              emailAddress: emailAddress,
-              password: password,
-            );
-            signedInOrFailure.fold(
-              (_) => const SignInState.error(
-                errorMessage: 'Request to register failed',
-              ),
-              (_) => const SignInState.signedIn(),
-            );
-          }
-          emit(const SignInState.error(errorMessage: ''));
-        },
-        signInWithGoogle: () async {
-          final signedInOrFailure = await _authFacade.signInWithGoogle();
-          signedInOrFailure.fold(
-            (failure) {
-              if (failure is CancelledByUserFailure) {
-                emit(SignInState.error(errorMessage: failure.message));
-                return;
-              }
-              emit(const SignInState.error(errorMessage: ''));
-              return;
-            },
-            (_) => const SignInState.signedIn(),
-          );
-        },
-      );
-    });
+          },
+        );
+      },
+    );
+  }
+
+  SignInState _generalErroState() {
+    return const SignInState.error(
+      errorMessage: 'Something went wrong during login',
+    );
+  }
+
+  SignInState _emptyErroState() {
+    return const SignInState.error(
+      errorMessage: '',
+    );
   }
 }
