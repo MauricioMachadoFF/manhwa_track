@@ -1,6 +1,5 @@
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
 import 'package:manhwa_track/authentication/domain/auth_facade_interface.dart';
@@ -8,6 +7,8 @@ import 'package:manhwa_track/authentication/domain/auth_failures.dart';
 import 'package:manhwa_track/core/failures.dart';
 import 'package:manhwa_track/authentication/domain/value_objects/password/password_vo.dart';
 import 'package:manhwa_track/authentication/domain/value_objects/email_address/email_address_vo.dart';
+import 'package:manhwa_track/shared/domain/entities/user.dart';
+import './firebase_user_mapper.dart';
 
 @LazySingleton(as: AuthFacadeInterface)
 class FirebaseAuthFacade implements AuthFacadeInterface {
@@ -18,6 +19,15 @@ class FirebaseAuthFacade implements AuthFacadeInterface {
     this._firebaseAuth,
     this._googleSignIn,
   );
+
+  @override
+  Future<Option<ManhaUser>> getSignedUser() async {
+    final firebaseUser = _firebaseAuth.currentUser;
+    if (firebaseUser != null) {
+      return Some(firebaseUser.toDomain());
+    }
+    return const None();
+  }
 
   @override
   Future<Either<Failure, Unit>> registerWithEmailAndPassword({
@@ -32,10 +42,12 @@ class FirebaseAuthFacade implements AuthFacadeInterface {
         password: passwordString,
       );
       return right(unit);
-    } on PlatformException catch (e) {
+    } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {
         return left(const EmailAlreadyInUseFailure());
       }
+      return left(const ServerFailure(message: ''));
+    } catch (_) {
       return left(const ServerFailure(message: ''));
     }
   }
@@ -53,12 +65,14 @@ class FirebaseAuthFacade implements AuthFacadeInterface {
         password: passwordString,
       );
       return right(unit);
-    } on PlatformException catch (e) {
+    } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         return left(const NoUserWithThatEmailFailure());
       } else if (e.code == 'wrong-password') {
         return left(const InvalidEmailAndPasswordCombinationFailure());
       }
+      return left(const ServerFailure(message: ''));
+    } catch (e) {
       return left(const ServerFailure(message: ''));
     }
   }
@@ -77,7 +91,7 @@ class FirebaseAuthFacade implements AuthFacadeInterface {
       );
       await _firebaseAuth.signInWithCredential(googleProvide);
       return right(unit);
-    } on PlatformException catch (_) {
+    } catch (_) {
       return left(
         const ServerFailure(
           message: 'Something went wrong in you login. Please try again later',
@@ -85,4 +99,12 @@ class FirebaseAuthFacade implements AuthFacadeInterface {
       );
     }
   }
+
+  @override
+  Future<void> signOut() => Future.wait(
+        [
+          _googleSignIn.signOut(),
+          _firebaseAuth.signOut(),
+        ],
+      );
 }
