@@ -1,7 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:manhwa_track/authentication/sign_in_up_page.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:manhwa_track/authentication/presentation/bloc/auth/auth_bloc.dart';
 import 'package:manhwa_track/core/injection.dart';
+import 'package:manhwa_track/core/routes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,13 +22,20 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: true,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return BlocProvider(
+      create: (context) =>
+          AuthBloc(getIt.get())..add(const AuthEvent.authCheckRequest()),
+      child: BlocBuilder<AuthBloc, AuthState>(
+        builder: (context, state) => MaterialApp(
+          debugShowCheckedModeBanner: true,
+          title: 'Manhwa Track',
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+          ),
+          initialRoute: ManhwaRoutes.splashPage,
+          routes: manhwaRoutes,
+        ),
       ),
-      home: const SignInUpPage(),
     );
   }
 }
