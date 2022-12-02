@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:manhwa_track/authentication/domain/value_objects/email_address/email_address_vo.dart';
 import 'package:manhwa_track/authentication/domain/value_objects/password/password_vo.dart';
+import 'package:manhwa_track/authentication/presentation/bloc/auth/auth_bloc.dart';
 import 'package:manhwa_track/authentication/presentation/bloc/sign_in/sign_in_bloc.dart';
 import 'package:manhwa_track/authentication/presentation/bloc/validate_email_password/validate_email_password_cubit.dart';
 import 'package:manhwa_track/core/injection.dart';
+import 'package:manhwa_track/core/routes.dart';
 import 'package:manhwa_track/design_sytem.dart/design_system.dart';
 
 class SignInUpPage extends StatefulWidget {
@@ -43,112 +45,138 @@ class _SignInUpPageState extends State<SignInUpPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocConsumer<SignInBloc, SignInState>(
-        bloc: _signInBloc,
-        listener: (context, state) {
-          state.whenOrNull(
-            // Navigate to home page
-            signedIn: () {},
-            error: (errorMessage) {
-              if (errorMessage.isNotEmpty) {
-                final snackBar = SnackBar(
-                  content: Text(errorMessage),
-                  duration: const Duration(milliseconds: 1500),
-                );
-                ScaffoldMessenger.of(context).showSnackBar(snackBar);
-              }
-            },
-          );
-        },
-        builder: (context, state) {
-          return SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: spacingSmall,
-              ),
-              child: Column(
-                children: [
-                  const Spacer(flex: 1),
-                  Container(
-                    width: 64,
-                    height: 64,
-                    color: Colors.red,
-                  ),
-                  const SizedBox(height: spacingSmall),
-                  BlocBuilder<ValidateEmailPasswordCubit,
-                      ValidateEmailPasswordState>(
-                    bloc: _validateEmailPasswordCubit,
-                    builder: (context, state) {
-                      return DSTextField(
-                        controller: _emailController,
-                        label: 'E-mail',
-                        onEditingComplete: () =>
-                            _validateEmailPasswordCubit.validateEmail(_email),
-                        errorMessage: state.emailErrorText,
-                      );
-                    },
-                  ),
-                  const SizedBox(height: spacingSmall),
-                  BlocBuilder<ValidateEmailPasswordCubit,
-                      ValidateEmailPasswordState>(
-                    bloc: _validateEmailPasswordCubit,
-                    builder: (context, state) {
-                      return DSTextField(
-                        controller: _passwordController,
-                        label: 'Password',
-                        hideValue: true,
-                        onEditingComplete: () => _validateEmailPasswordCubit
-                            .validatePassword(_password),
-                        errorMessage: state.passwordErrorText,
-                      );
-                    },
-                  ),
-                  const SizedBox(height: spacingSmall),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: () {
-                            _signIn(_email, _password);
-                          },
-                          child: Text('Sign In'),
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<AuthBloc, AuthState>(
+          listener: (context, state) {
+            state.whenOrNull(
+              authenticated: (user) =>
+                  Navigator.pushReplacementNamed(context, ManhwaRoutes.second),
+            );
+          },
+        ),
+        BlocListener<SignInBloc, SignInState>(
+          bloc: _signInBloc,
+          listener: (context, state) {
+            state.whenOrNull(
+              signedIn: () {
+                context
+                    .read<AuthBloc>()
+                    .add(const AuthEvent.authCheckRequest());
+              },
+              error: (errorMessage) {
+                if (errorMessage.isNotEmpty) {
+                  final snackBar = SnackBar(
+                    content: Text(errorMessage),
+                    duration: const Duration(milliseconds: 1500),
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                }
+              },
+            );
+          },
+        )
+      ],
+      child: Scaffold(
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.pushNamed(
+              context,
+              ManhwaRoutes.second,
+            );
+          },
+        ),
+        body: BlocBuilder<SignInBloc, SignInState>(
+          bloc: _signInBloc,
+          builder: (context, state) {
+            return SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: spacingSmall,
+                ),
+                child: Column(
+                  children: [
+                    const Spacer(flex: 1),
+                    Container(
+                      width: 64,
+                      height: 64,
+                      color: Colors.red,
+                    ),
+                    const SizedBox(height: spacingSmall),
+                    BlocBuilder<ValidateEmailPasswordCubit,
+                        ValidateEmailPasswordState>(
+                      bloc: _validateEmailPasswordCubit,
+                      builder: (context, state) {
+                        return DSTextField(
+                          controller: _emailController,
+                          label: 'E-mail',
+                          onEditingComplete: () =>
+                              _validateEmailPasswordCubit.validateEmail(_email),
+                          errorMessage: state.emailErrorText,
+                        );
+                      },
+                    ),
+                    const SizedBox(height: spacingSmall),
+                    BlocBuilder<ValidateEmailPasswordCubit,
+                        ValidateEmailPasswordState>(
+                      bloc: _validateEmailPasswordCubit,
+                      builder: (context, state) {
+                        return DSTextField(
+                          controller: _passwordController,
+                          label: 'Password',
+                          hideValue: true,
+                          onEditingComplete: () => _validateEmailPasswordCubit
+                              .validatePassword(_password),
+                          errorMessage: state.passwordErrorText,
+                        );
+                      },
+                    ),
+                    const SizedBox(height: spacingSmall),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: () {
+                              _signIn(_email, _password);
+                            },
+                            child: Text('Sign In'),
+                          ),
                         ),
-                      ),
-                      const SizedBox(
-                        width: spacingNano,
-                      ),
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: () {
-                            _signUp(_email, _password);
-                          },
-                          child: Text('Sign Up'),
+                        const SizedBox(
+                          width: spacingNano,
                         ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                        onPressed: _signInWithGoogle,
-                        child: Text('Sign in with Google')),
-                  ),
-                  // TextButton(
-                  //   //TODO(Maurcio): Implement change password
-                  //   onPressed: () {},
-                  //   child: Text('Forgot your password?'),
-                  //   style: TextButton.styleFrom(
-                  //     padding: EdgeInsets.zero,
-                  //     visualDensity: const VisualDensity(),
-                  //   ),
-                  // ),
-                  const Spacer(flex: 3),
-                ],
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: () {
+                              _signUp(_email, _password);
+                            },
+                            child: Text('Sign Up'),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                          onPressed: _signInWithGoogle,
+                          child: Text('Sign in with Google')),
+                    ),
+                    // TextButton(
+                    //   //TODO(Maurcio): Implement change password
+                    //   onPressed: () {},
+                    //   child: Text('Forgot your password?'),
+                    //   style: TextButton.styleFrom(
+                    //     padding: EdgeInsets.zero,
+                    //     visualDensity: const VisualDensity(),
+                    //   ),
+                    // ),
+                    const Spacer(flex: 3),
+                  ],
+                ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }
