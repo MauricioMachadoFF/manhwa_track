@@ -21,3 +21,15 @@ abstract class ValueFailure<T> extends Failure {
 
   T get failedValue;
 }
+
+class EmptyFieldFailure extends ValueFailure<String> {
+  final String _failedValue;
+  const EmptyFieldFailure(
+    this._failedValue,
+  ) : super(
+          message: 'Required field',
+        );
+
+  @override
+  get failedValue => _failedValue;
+}

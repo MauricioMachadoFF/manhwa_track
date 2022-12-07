@@ -32,7 +32,7 @@ class _MyAppState extends State<MyApp> {
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          initialRoute: ManhwaRoutes.splashPage,
+          initialRoute: ManhwaRoutes.splash,
           routes: manhwaRoutes,
         ),
       ),

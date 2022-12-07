@@ -50,8 +50,10 @@ class _SignInUpPageState extends State<SignInUpPage> {
         BlocListener<AuthBloc, AuthState>(
           listener: (context, state) {
             state.whenOrNull(
-              authenticated: (user) =>
-                  Navigator.pushReplacementNamed(context, ManhwaRoutes.second),
+              authenticated: (user) => Navigator.pushReplacementNamed(
+                context,
+                ManhwaRoutes.homepage,
+              ),
             );
           },
         ),
@@ -78,14 +80,6 @@ class _SignInUpPageState extends State<SignInUpPage> {
         )
       ],
       child: Scaffold(
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.pushNamed(
-              context,
-              ManhwaRoutes.second,
-            );
-          },
-        ),
         body: BlocBuilder<SignInBloc, SignInState>(
           bloc: _signInBloc,
           builder: (context, state) {
@@ -170,6 +164,11 @@ class _SignInUpPageState extends State<SignInUpPage> {
                     //     visualDensity: const VisualDensity(),
                     //   ),
                     // ),
+                    const SizedBox(height: spacingSmall),
+                    state.maybeWhen(
+                      orElse: () => const SizedBox.shrink(),
+                      loading: () => const CircularProgressIndicator(),
+                    ),
                     const Spacer(flex: 3),
                   ],
                 ),
