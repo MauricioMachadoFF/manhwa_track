@@ -14,9 +14,9 @@ class SplashPage extends StatelessWidget {
       listener: (context, state) {
         state.whenOrNull(
           authenticated: (user) =>
-              Navigator.pushReplacementNamed(context, ManhwaRoutes.second),
+              Navigator.pushReplacementNamed(context, ManhwaRoutes.homepage),
           unauthenticated: () =>
-              Navigator.pushReplacementNamed(context, ManhwaRoutes.signInPage),
+              Navigator.pushReplacementNamed(context, ManhwaRoutes.signIn),
         );
       },
       child: const Scaffold(
