@@ -15,6 +15,14 @@ class ServerFailure extends Failure {
   const ServerFailure({required super.message});
 }
 
+class UnhandledFailure extends Failure {
+  const UnhandledFailure({required super.message});
+}
+
+class UserIdEmptyFailure extends Failure {
+  const UserIdEmptyFailure() : super(message: 'User id is null');
+}
+
 /// Used for value objects
 abstract class ValueFailure<T> extends Failure {
   const ValueFailure({required super.message});
