@@ -60,7 +60,6 @@ class ValidateTrackBloc extends Bloc<ValidateTrackEvent, ValidateTrackState> {
   }
 
   String? _validateChapter(String chapter) {
-    print('a');
     return ChapterVO(chapter).value.fold(
           (failure) => failure.message,
           (_) => null,
