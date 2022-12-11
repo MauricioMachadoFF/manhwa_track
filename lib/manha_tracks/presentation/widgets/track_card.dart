@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:manhwa_track/core/routes.dart';
 import 'package:manhwa_track/design_sytem.dart/design_system.dart';
+import 'package:manhwa_track/manha_tracks/domain/entities/track.dart';
 
 class TrackCard extends StatelessWidget {
-  const TrackCard({super.key});
+  final Track track;
+  const TrackCard({
+    required this.track,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +27,8 @@ class TrackCard extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              //TODO(Mauricio): Remove mock data
-              Text('título'),
-              Text('Episódio 63'),
+              Text(track.title),
+              Text('Chapter ${track.chapter}'),
             ],
           ),
           Row(
@@ -35,9 +39,10 @@ class TrackCard extends StatelessWidget {
                 backgroundColor: Colors.red,
                 iconSize: sizeSmall,
                 onTap: () {
-                  //TODO(Mauricio): Navigate to track card details
-                  print('banana');
-                  Navigator.of(context).pushNamed(ManhwaRoutes.trackDetails);
+                  Navigator.of(context).pushNamed(
+                    ManhwaRoutes.trackDetails,
+                    arguments: track,
+                  );
                 },
               ),
               SizedBox(width: spacingNano),
