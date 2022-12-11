@@ -11,21 +11,23 @@ import 'package:get_it/get_it.dart' as _i1;
 import 'package:google_sign_in/google_sign_in.dart' as _i5;
 import 'package:injectable/injectable.dart' as _i2;
 import 'package:manhwa_track/authentication/domain/auth_facade_interface.dart'
-    as _i8;
-import 'package:manhwa_track/authentication/infraestructure/firebase_auth_facade.dart'
     as _i9;
+import 'package:manhwa_track/authentication/infraestructure/firebase_auth_facade.dart'
+    as _i10;
 import 'package:manhwa_track/manha_tracks/data/repositories/track_repository_impl.dart'
     as _i7;
 import 'package:manhwa_track/manha_tracks/domain/repositories/track_repository.dart'
     as _i6;
 import 'package:manhwa_track/manha_tracks/domain/usecases/create_track.dart'
-    as _i10;
-import 'package:manhwa_track/manha_tracks/domain/usecases/create_user_doc.dart'
     as _i11;
-import 'package:manhwa_track/manha_tracks/domain/usecases/get_all_tracks.dart'
+import 'package:manhwa_track/manha_tracks/domain/usecases/create_user_doc.dart'
     as _i12;
-import 'package:manhwa_track/shared/module/firebase_injectable_module.dart'
+import 'package:manhwa_track/manha_tracks/domain/usecases/get_all_tracks.dart'
     as _i13;
+import 'package:manhwa_track/manha_tracks/domain/usecases/update_track.dart'
+    as _i8;
+import 'package:manhwa_track/shared/module/firebase_injectable_module.dart'
+    as _i14;
 
 /// ignore_for_file: unnecessary_lambdas
 /// ignore_for_file: lines_longer_than_80_chars
@@ -51,18 +53,20 @@ extension GetItInjectableX on _i1.GetIt {
           gh<_i3.FirebaseAuth>(),
           gh<_i4.FirebaseFirestore>(),
         ));
-    gh.lazySingleton<_i8.AuthFacadeInterface>(() => _i9.FirebaseAuthFacade(
+    gh.factory<_i8.UpdateTrack>(
+        () => _i8.UpdateTrackImpl(gh<_i6.TrackRepository>()));
+    gh.lazySingleton<_i9.AuthFacadeInterface>(() => _i10.FirebaseAuthFacade(
           gh<_i3.FirebaseAuth>(),
           gh<_i5.GoogleSignIn>(),
         ));
-    gh.factory<_i10.CreateTrack>(
-        () => _i10.CreateTrackImpl(gh<_i6.TrackRepository>()));
-    gh.factory<_i11.CreateUserDoc>(
-        () => _i11.CreateUserDocImpl(gh<_i6.TrackRepository>()));
-    gh.factory<_i12.GetAllTrack>(
-        () => _i12.GetAllTrackImpl(gh<_i6.TrackRepository>()));
+    gh.factory<_i11.CreateTrack>(
+        () => _i11.CreateTrackImpl(gh<_i6.TrackRepository>()));
+    gh.factory<_i12.CreateUserDoc>(
+        () => _i12.CreateUserDocImpl(gh<_i6.TrackRepository>()));
+    gh.factory<_i13.GetAllTrack>(
+        () => _i13.GetAllTrackImpl(gh<_i6.TrackRepository>()));
     return this;
   }
 }
 
-class _$FirebaseInjectionModule extends _i13.FirebaseInjectionModule {}
+class _$FirebaseInjectionModule extends _i14.FirebaseInjectionModule {}

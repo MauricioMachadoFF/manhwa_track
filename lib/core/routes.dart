@@ -31,7 +31,10 @@ final Map<String, Widget Function(BuildContext)> manhwaRoutes = {
           create: (_) => ValidateTrackBloc(),
         ),
         BlocProvider(
-          create: (_) => CreateTrackCubit(getIt.get()),
+          create: (_) => CreateTrackCubit(
+            getIt.get(),
+            getIt.get(),
+          ),
         )
       ],
       child: args != null

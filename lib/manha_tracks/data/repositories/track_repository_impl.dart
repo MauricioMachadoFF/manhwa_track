@@ -108,4 +108,24 @@ class TrackRepositoryImpl implements TrackRepository {
     Logger().logError(where: 'Data - getAllTracks', message: message);
     return const UnhandledFailure(message: message);
   }
+
+  @override
+  Future<Option<Failure>> updateTrack(Track track) async {
+    try {
+      final userId = _userId;
+      await _firestore
+          .collection(users)
+          .doc(userId)
+          .collection(tracks)
+          .doc(track.id.getOrCrash())
+          .update(
+            _trackMap(track),
+          );
+      return const None();
+    } catch (_) {
+      const message = 'We could not update this track now.';
+      Logger().logError(where: 'Data - updateTrack', message: message);
+      return const Some(UnhandledFailure(message: message));
+    }
+  }
 }

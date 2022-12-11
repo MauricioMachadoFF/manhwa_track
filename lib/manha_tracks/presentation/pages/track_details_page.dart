@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:manhwa_track/core/error.dart';
 import 'package:manhwa_track/design_sytem.dart/design_system.dart';
 import 'package:manhwa_track/manha_tracks/domain/entities/track.dart';
 import 'package:manhwa_track/manha_tracks/presentation/bloc/create_track/create_track_cubit.dart';
@@ -168,7 +169,27 @@ class _TrackDetailsPageState extends State<TrackDetailsPage> {
         );
   }
 
-  void _onUpdateTrackTap() {}
+  void _onUpdateTrackTap() {
+    final currentTrack = widget.track;
+    if (currentTrack == null) {
+      throw UnexpectedAccessError(
+        message:
+            "currentTrack asserted as null, but can't be null on _onUpdateTrackTap method",
+        where: '[Presentation - TrackDetailsPage - _onUpdateTrackTap]',
+      );
+    }
+    context.read<CreateTrackCubit>().updateNewTrack(
+          Track(
+            id: currentTrack.id,
+            title: _titleController.text,
+            chapter: double.parse(_chapterController.text),
+            url: _urlController.text,
+            status: 'Completed',
+            createdAt: currentTrack.createdAt,
+            updatedAt: DateTime.now(),
+          ),
+        );
+  }
 
   void _validateForm() {
     context.read<ValidateTrackBloc>().add(
