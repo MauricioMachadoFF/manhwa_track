@@ -50,10 +50,12 @@ class _SignInUpPageState extends State<SignInUpPage> {
         BlocListener<AuthBloc, AuthState>(
           listener: (context, state) {
             state.whenOrNull(
-              authenticated: (user) => Navigator.pushReplacementNamed(
-                context,
-                ManhwaRoutes.homepage,
-              ),
+              authenticated: (user) {
+                Navigator.pushReplacementNamed(
+                  context,
+                  ManhwaRoutes.homepage,
+                );
+              },
             );
           },
         ),

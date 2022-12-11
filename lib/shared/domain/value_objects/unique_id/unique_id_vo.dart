@@ -14,7 +14,7 @@ class UniqueIDVO extends ValueObject<String> {
   }
 
   @override
-  String toString() => 'EmailAddress($value)';
+  String toString() => 'UniqueId($value)';
 
   @override
   final Either<ValueFailure<String>, String> value;

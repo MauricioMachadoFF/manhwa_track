@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:manhwa_track/authentication/presentation/bloc/auth/auth_bloc.dart';
 import 'package:manhwa_track/core/routes.dart';
@@ -13,8 +11,9 @@ class SplashPage extends StatelessWidget {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         state.whenOrNull(
-          authenticated: (user) =>
-              Navigator.pushReplacementNamed(context, ManhwaRoutes.homepage),
+          authenticated: (user) {
+            Navigator.pushReplacementNamed(context, ManhwaRoutes.homepage);
+          },
           unauthenticated: () =>
               Navigator.pushReplacementNamed(context, ManhwaRoutes.signIn),
         );
