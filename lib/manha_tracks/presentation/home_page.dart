@@ -36,17 +36,6 @@ class _HomePageState extends State<HomePage> {
             );
           },
         ),
-        // TODO(Mauricio): Maybe add snackbars for error state
-        // Otherwise this bloc listener can be removed
-        BlocListener<LoadTrackCubit, LoadTrackState>(
-          listener: (context, state) {
-            state.whenOrNull(
-              loaded: (tracks) {
-                print(tracks);
-              },
-            );
-          },
-        )
       ],
       child: BlocBuilder<LoadTrackCubit, LoadTrackState>(
         builder: (context, state) {
