@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:manhwa_track/core/error.dart';
+import 'package:manhwa_track/design_sytem.dart/buttons/text_button.dart';
 import 'package:manhwa_track/design_sytem.dart/design_system.dart';
 import 'package:manhwa_track/manha_tracks/domain/entities/track.dart';
 import 'package:manhwa_track/manha_tracks/presentation/bloc/create_track/create_track_cubit.dart';
 import 'package:manhwa_track/manha_tracks/presentation/bloc/load_tracks/load_track_cubit.dart';
+import 'package:manhwa_track/manha_tracks/presentation/bloc/selected_status/selected_status_cubit.dart';
 import 'package:manhwa_track/manha_tracks/presentation/bloc/validate_track/validate_track_bloc.dart';
 import 'package:manhwa_track/manha_tracks/presentation/widgets/status_dropdown.dart';
 import 'package:manhwa_track/shared/domain/value_objects/unique_id/unique_id_vo.dart';
+import 'package:manhwa_track/shared/presentation/base_background_gradient.dart';
 
 class TrackDetailsPage extends StatefulWidget {
   final Track? track;
@@ -58,94 +61,109 @@ class _TrackDetailsPageState extends State<TrackDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocListener(
-      listeners: [
-        BlocListener<ValidateTrackBloc, ValidateTrackState>(
-          listener: (context, state) {
-            if (state.isValid) {
-              _isNewTrack ? _onCreateNewTrackTap() : _onUpdateTrackTap();
-            }
-          },
-        ),
-        BlocListener<CreateTrackCubit, CreateTrackState>(
-          listener: (_, state) {
-            state.whenOrNull(
-              // TODO(Mauricio): on error should show something
-              // On loading button should be a circular progress indicator
-
-              sucess: () {
-                context.read<LoadTrackCubit>().loadTracks();
-                Navigator.of(context).pop();
-              },
-            );
-          },
-        ),
-      ],
-      child: Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          leading: ManhwaIconButton(
-            icon: Icons.chevron_left_rounded,
-            iconSize: sizeMedium,
-            iconColor: Colors.black87,
-            onTap: Navigator.of(context).pop,
+    return BlocProvider(
+      create: (context) {
+        final status = widget.track?.status ?? 'Reading';
+        return SelectedStatusCubit(status);
+      },
+      child: MultiBlocListener(
+        listeners: [
+          BlocListener<ValidateTrackBloc, ValidateTrackState>(
+            listener: (context, state) {
+              if (state.isValid) {
+                _isNewTrack
+                    ? _onCreateNewTrackTap()
+                    : _onUpdateTrackTap(context);
+              }
+            },
           ),
-        ),
-        body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: spacingSmall,
+          BlocListener<CreateTrackCubit, CreateTrackState>(
+            listener: (_, state) {
+              state.whenOrNull(
+                // TODO(Mauricio): on error should show something
+                // On loading button should be a circular progress indicator
+
+                sucess: () {
+                  context.read<LoadTrackCubit>().loadTracks();
+                  Navigator.of(context).pop();
+                },
+              );
+            },
+          ),
+        ],
+        child: BaseBackgroundGradient(
+          content: Scaffold(
+            backgroundColor: Colors.transparent,
+            appBar: AppBar(
+              elevation: 0,
+              backgroundColor: Colors.transparent,
+              leading: ManhwaIconButton(
+                icon: Icons.chevron_left_rounded,
+                iconSize: sizeMedium,
+                iconColor: Colors.black87,
+                onTap: Navigator.of(context).pop,
+              ),
             ),
-            child: BlocBuilder<ValidateTrackBloc, ValidateTrackState>(
-              builder: (_, state) => Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: spacingSmall),
-                  DSTextField(
-                    controller: _titleController,
-                    label: 'Title',
-                    errorMessage: state.titleErrorText,
-                    onEditingComplete: () => _validateTitleField(
-                      context,
-                      _titleController.text,
-                    ),
-                  ),
-                  const SizedBox(height: spacingSmall),
-                  DSTextField(
-                    controller: _chapterController,
-                    label: 'Chapter',
-                    errorMessage: state.chapterErrorText,
-                    onEditingComplete: () => _validateChapterField(
-                      context,
-                      _chapterController.text,
-                    ),
-                  ),
-                  const SizedBox(height: spacingSmall),
-                  DSTextField(
-                    controller: _urlController,
-                    label: 'URL',
-                    errorMessage: state.urlErrorText,
-                    onEditingComplete: () => _validateUrlField(
-                      context,
-                      _urlController.text,
-                    ),
-                  ),
-                  const SizedBox(
-                    width: double.maxFinite,
-                    child: StatusDropdown(),
-                  ),
-                  const Spacer(),
-                  SizedBox(
-                    width: double.maxFinite,
-                    child: ElevatedButton(
-                      onPressed: _validateForm,
-                      child: Text(
-                        _isNewTrack ? 'Create New Track' : 'Update Track',
+            body: SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: spacingSmall,
+                ),
+                child: BlocBuilder<ValidateTrackBloc, ValidateTrackState>(
+                  builder: (_, state) => Column(
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: spacingSmall),
+                      DSTextField(
+                        controller: _titleController,
+                        label: 'Title',
+                        errorMessage: state.titleErrorText,
+                        onEditingComplete: () => _validateTitleField(
+                          context,
+                          _titleController.text,
+                        ),
                       ),
-                    ),
-                  )
-                ],
+                      const SizedBox(height: spacingSmall),
+                      DSTextField(
+                        controller: _chapterController,
+                        label: 'Chapter',
+                        errorMessage: state.chapterErrorText,
+                        onEditingComplete: () => _validateChapterField(
+                          context,
+                          _chapterController.text,
+                        ),
+                      ),
+                      const SizedBox(height: spacingSmall),
+                      DSTextField(
+                        controller: _urlController,
+                        label: 'URL',
+                        errorMessage: state.urlErrorText,
+                        onEditingComplete: () => _validateUrlField(
+                          context,
+                          _urlController.text,
+                        ),
+                      ),
+                      const SizedBox(height: spacingSmall),
+                      SizedBox(
+                        width: double.maxFinite,
+                        child: StatusDropdown(
+                          status: widget.track?.status ?? 'Reading',
+                        ),
+                      ),
+                      const Spacer(),
+                      SizedBox(
+                        width: double.maxFinite,
+                        child: ManhwaTextButton.onOceanBlue(
+                          title:
+                              _isNewTrack ? 'Create New Track' : 'Update Track',
+                          onTap: _validateForm,
+                        ),
+                      ),
+                      const SizedBox(height: spacingSmall),
+                    ],
+                  ),
+                ),
               ),
             ),
           ),
@@ -161,15 +179,14 @@ class _TrackDetailsPageState extends State<TrackDetailsPage> {
             title: _titleController.text,
             chapter: double.parse(_chapterController.text),
             url: _urlController.text,
-            //TODO(Mauricio): Use status from form
-            status: 'Completed',
+            status: context.read<SelectedStatusCubit>().state.status,
             createdAt: DateTime.now(),
             updatedAt: DateTime.now(),
           ),
         );
   }
 
-  void _onUpdateTrackTap() {
+  void _onUpdateTrackTap(BuildContext context) {
     final currentTrack = widget.track;
     if (currentTrack == null) {
       throw UnexpectedAccessError(
@@ -184,7 +201,7 @@ class _TrackDetailsPageState extends State<TrackDetailsPage> {
             title: _titleController.text,
             chapter: double.parse(_chapterController.text),
             url: _urlController.text,
-            status: 'Completed',
+            status: context.read<SelectedStatusCubit>().state.status,
             createdAt: currentTrack.createdAt,
             updatedAt: DateTime.now(),
           ),
