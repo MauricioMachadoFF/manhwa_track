@@ -8,6 +8,7 @@ import 'package:manhwa_track/authentication/presentation/bloc/validate_email_pas
 import 'package:manhwa_track/core/injection.dart';
 import 'package:manhwa_track/core/routes.dart';
 import 'package:manhwa_track/design_sytem.dart/design_system.dart';
+import 'package:manhwa_track/shared/presentation/base_background_gradient.dart';
 
 class SignInUpPage extends StatefulWidget {
   const SignInUpPage({super.key});
@@ -81,102 +82,122 @@ class _SignInUpPageState extends State<SignInUpPage> {
           },
         )
       ],
-      child: Scaffold(
-        body: BlocBuilder<SignInBloc, SignInState>(
-          bloc: _signInBloc,
-          builder: (context, state) {
-            return SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: spacingSmall,
-                ),
-                child: Column(
-                  children: [
-                    const Spacer(flex: 1),
-                    Container(
-                      width: 64,
-                      height: 64,
-                      color: Colors.red,
-                    ),
-                    const SizedBox(height: spacingSmall),
-                    BlocBuilder<ValidateEmailPasswordCubit,
-                        ValidateEmailPasswordState>(
-                      bloc: _validateEmailPasswordCubit,
-                      builder: (context, state) {
-                        return DSTextField(
-                          controller: _emailController,
-                          label: 'E-mail',
-                          onEditingComplete: () =>
-                              _validateEmailPasswordCubit.validateEmail(_email),
-                          errorMessage: state.emailErrorText,
-                        );
-                      },
-                    ),
-                    const SizedBox(height: spacingSmall),
-                    BlocBuilder<ValidateEmailPasswordCubit,
-                        ValidateEmailPasswordState>(
-                      bloc: _validateEmailPasswordCubit,
-                      builder: (context, state) {
-                        return DSTextField(
-                          controller: _passwordController,
-                          label: 'Password',
-                          hideValue: true,
-                          onEditingComplete: () => _validateEmailPasswordCubit
-                              .validatePassword(_password),
-                          errorMessage: state.passwordErrorText,
-                        );
-                      },
-                    ),
-                    const SizedBox(height: spacingSmall),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: ElevatedButton(
-                            onPressed: () {
-                              _signIn(_email, _password);
-                            },
-                            child: Text('Sign In'),
+      child: BaseBackgroundGradient(
+        content: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: BlocBuilder<SignInBloc, SignInState>(
+            bloc: _signInBloc,
+            builder: (context, state) {
+              return SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: spacingSmall,
+                  ),
+                  child: Column(
+                    children: [
+                      const SizedBox(height: spacingBig),
+                      ShaderMask(
+                        blendMode: BlendMode.srcATop,
+                        shaderCallback: (bounds) => const LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          stops: [
+                            0,
+                            0.5,
+                            1,
+                          ],
+                          colors: [
+                            pink,
+                            peach,
+                            pink,
+                          ],
+                        ).createShader(bounds),
+                        child: const Icon(
+                          Icons.menu_book_rounded,
+                          size: sizeBig,
+                          color: pink,
+                        ),
+                      ),
+                      const SizedBox(height: spacingSmall),
+                      BlocBuilder<ValidateEmailPasswordCubit,
+                          ValidateEmailPasswordState>(
+                        bloc: _validateEmailPasswordCubit,
+                        builder: (context, state) {
+                          return DSTextField(
+                            controller: _emailController,
+                            label: 'E-mail',
+                            onEditingComplete: () => _validateEmailPasswordCubit
+                                .validateEmail(_email),
+                            errorMessage: state.emailErrorText,
+                          );
+                        },
+                      ),
+                      const SizedBox(height: spacingSmall),
+                      BlocBuilder<ValidateEmailPasswordCubit,
+                          ValidateEmailPasswordState>(
+                        bloc: _validateEmailPasswordCubit,
+                        builder: (context, state) {
+                          return DSTextField(
+                            controller: _passwordController,
+                            label: 'Password',
+                            hideValue: true,
+                            onEditingComplete: () => _validateEmailPasswordCubit
+                                .validatePassword(_password),
+                            errorMessage: state.passwordErrorText,
+                          );
+                        },
+                      ),
+                      const SizedBox(height: spacingSmall),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: ElevatedButton(
+                              onPressed: () {
+                                _signIn(_email, _password);
+                              },
+                              child: Text('Sign In'),
+                            ),
                           ),
-                        ),
-                        const SizedBox(
-                          width: spacingNano,
-                        ),
-                        Expanded(
-                          child: ElevatedButton(
-                            onPressed: () {
-                              _signUp(_email, _password);
-                            },
-                            child: Text('Sign Up'),
+                          const SizedBox(
+                            width: spacingNano,
                           ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                          onPressed: _signInWithGoogle,
-                          child: Text('Sign in with Google')),
-                    ),
-                    // TextButton(
-                    //   //TODO(Maurcio): Implement change password
-                    //   onPressed: () {},
-                    //   child: Text('Forgot your password?'),
-                    //   style: TextButton.styleFrom(
-                    //     padding: EdgeInsets.zero,
-                    //     visualDensity: const VisualDensity(),
-                    //   ),
-                    // ),
-                    const SizedBox(height: spacingSmall),
-                    state.maybeWhen(
-                      orElse: () => const SizedBox.shrink(),
-                      loading: () => const CircularProgressIndicator(),
-                    ),
-                    const Spacer(flex: 3),
-                  ],
+                          Expanded(
+                            child: ElevatedButton(
+                              onPressed: () {
+                                _signUp(_email, _password);
+                              },
+                              child: Text('Sign Up'),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                            onPressed: _signInWithGoogle,
+                            child: Text('Sign in with Google')),
+                      ),
+                      // TextButton(
+                      //   //TODO(Maurcio): Implement change password
+                      //   onPressed: () {},
+                      //   child: Text('Forgot your password?'),
+                      //   style: TextButton.styleFrom(
+                      //     padding: EdgeInsets.zero,
+                      //     visualDensity: const VisualDensity(),
+                      //   ),
+                      // ),
+                      const SizedBox(height: spacingSmall),
+                      state.maybeWhen(
+                        orElse: () => const SizedBox.shrink(),
+                        loading: () => const CircularProgressIndicator(),
+                      ),
+                      const Spacer(flex: 3),
+                    ],
+                  ),
                 ),
-              ),
-            );
-          },
+              );
+            },
+          ),
         ),
       ),
     );
