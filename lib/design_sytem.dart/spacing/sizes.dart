@@ -15,3 +15,9 @@ const double sizeXMedium = 48;
 
 ///64px
 const double sizeBig = 64;
+
+///128px
+const double sizeXL = 128;
+
+///256px
+const double sizeXXL = 256;

@@ -23,7 +23,7 @@ class DSTextField extends StatelessWidget {
   });
 
   bool get _hasErrorMessage => errorMessage != null;
-
+  bool get _hasLabel => label != null;
   //TODO(Mauricio): Define styles for textfield
   //Color font and so on
   @override
@@ -31,25 +31,32 @@ class DSTextField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        if (_hasLabel) ...[
+          Padding(
+            padding: const EdgeInsets.only(
+              left: spacingQuarck,
+            ),
+            child: Text(label ?? ''),
+          ),
+          const SizedBox(height: spacingQuarck),
+        ],
         TextField(
           controller: controller,
           autocorrect: autocorrect,
           onEditingComplete: onEditingComplete,
           onChanged: onChanged,
           obscureText: hideValue,
+          cursorColor: peach,
           decoration: InputDecoration(
-            labelText: label,
             hintText: hint,
             focusedBorder: const OutlineInputBorder(
-              borderSide: BorderSide(
-                color: Colors.purple,
-              ),
+              borderSide: BorderSide.none,
             ),
             enabledBorder: const OutlineInputBorder(
-              borderSide: BorderSide(
-                color: Colors.blue,
-              ),
+              borderSide: BorderSide.none,
             ),
+            fillColor: white,
+            filled: true,
           ),
         ),
         if (_hasErrorMessage) ...[
