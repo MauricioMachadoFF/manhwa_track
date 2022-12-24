@@ -7,4 +7,5 @@ abstract class TrackRepository {
   Future<Either<Failure, Unit>> createOrGetUserDoc();
   Future<Option<Failure>> createTrack(Track track);
   Future<Option<Failure>> updateTrack(Track track);
+  Future<Option<Failure>> deleteTrack(String id);
 }

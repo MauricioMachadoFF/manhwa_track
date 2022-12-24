@@ -69,6 +69,7 @@ class TrackRepositoryImpl implements TrackRepository {
       final tracksList = tracksModel
           .map((trackModel) => TrackMapper.toEntity(trackModel))
           .toList();
+      tracksList.removeLast();
       return Right(tracksList);
     } catch (_) {
       return Left(_onUnhandledError());
@@ -124,6 +125,24 @@ class TrackRepositoryImpl implements TrackRepository {
       return const None();
     } catch (_) {
       const message = 'We could not update this track now.';
+      Logger().logError(where: 'Data - updateTrack', message: message);
+      return const Some(UnhandledFailure(message: message));
+    }
+  }
+
+  @override
+  Future<Option<Failure>> deleteTrack(String id) async {
+    try {
+      final userId = _userId;
+      await _firestore
+          .collection(users)
+          .doc(userId)
+          .collection(tracks)
+          .doc(id)
+          .delete();
+      return const None();
+    } catch (_) {
+      const message = 'Failed to delete track. Try again later.';
       Logger().logError(where: 'Data - updateTrack', message: message);
       return const Some(UnhandledFailure(message: message));
     }
