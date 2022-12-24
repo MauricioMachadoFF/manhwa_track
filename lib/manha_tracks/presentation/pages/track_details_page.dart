@@ -8,7 +8,7 @@ import 'package:manhwa_track/manha_tracks/presentation/bloc/create_track/create_
 import 'package:manhwa_track/manha_tracks/presentation/bloc/load_tracks/load_track_cubit.dart';
 import 'package:manhwa_track/manha_tracks/presentation/bloc/selected_status/selected_status_cubit.dart';
 import 'package:manhwa_track/manha_tracks/presentation/bloc/validate_track/validate_track_bloc.dart';
-import 'package:manhwa_track/manha_tracks/presentation/widgets/status_dropdown.dart';
+import 'package:manhwa_track/manha_tracks/presentation/widgets/status_picker.dart';
 import 'package:manhwa_track/shared/domain/value_objects/unique_id/unique_id_vo.dart';
 import 'package:manhwa_track/shared/presentation/base_background_gradient.dart';
 
@@ -62,7 +62,7 @@ class _TrackDetailsPageState extends State<TrackDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) {
+      create: (_) {
         final status = widget.track?.status ?? 'Reading';
         return SelectedStatusCubit(status);
       },
@@ -72,7 +72,7 @@ class _TrackDetailsPageState extends State<TrackDetailsPage> {
             listener: (context, state) {
               if (state.isValid) {
                 _isNewTrack
-                    ? _onCreateNewTrackTap()
+                    ? _onCreateNewTrackTap(context)
                     : _onUpdateTrackTap(context);
               }
             },
@@ -110,7 +110,7 @@ class _TrackDetailsPageState extends State<TrackDetailsPage> {
                   horizontal: spacingSmall,
                 ),
                 child: BlocBuilder<ValidateTrackBloc, ValidateTrackState>(
-                  builder: (_, state) => Column(
+                  builder: (context, state) => Column(
                     mainAxisSize: MainAxisSize.max,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -145,11 +145,8 @@ class _TrackDetailsPageState extends State<TrackDetailsPage> {
                         ),
                       ),
                       const SizedBox(height: spacingSmall),
-                      SizedBox(
-                        width: double.maxFinite,
-                        child: StatusDropdown(
-                          status: widget.track?.status ?? 'Reading',
-                        ),
+                      const Align(
+                        child: StatusPicker(),
                       ),
                       const Spacer(),
                       SizedBox(
@@ -157,7 +154,7 @@ class _TrackDetailsPageState extends State<TrackDetailsPage> {
                         child: ManhwaTextButton.onOceanBlue(
                           title:
                               _isNewTrack ? 'Create New Track' : 'Update Track',
-                          onTap: _validateForm,
+                          onTap: () => _validateForm(context),
                         ),
                       ),
                       const SizedBox(height: spacingSmall),
@@ -172,7 +169,7 @@ class _TrackDetailsPageState extends State<TrackDetailsPage> {
     );
   }
 
-  void _onCreateNewTrackTap() {
+  void _onCreateNewTrackTap(BuildContext context) {
     context.read<CreateTrackCubit>().createNewTrack(
           Track(
             id: UniqueIDVO(),
@@ -208,7 +205,7 @@ class _TrackDetailsPageState extends State<TrackDetailsPage> {
         );
   }
 
-  void _validateForm() {
+  void _validateForm(BuildContext context) {
     context.read<ValidateTrackBloc>().add(
           ValidateTrackEvent.validateForm(
             title: _titleController.text,

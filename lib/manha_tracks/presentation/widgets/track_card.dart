@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:manhwa_track/core/routes.dart';
 import 'package:manhwa_track/design_sytem.dart/buttons/text_button.dart';
 import 'package:manhwa_track/design_sytem.dart/design_system.dart';
 import 'package:manhwa_track/manha_tracks/domain/entities/track.dart';
+import 'package:manhwa_track/manha_tracks/presentation/bloc/delete_track/delete_track_cubit.dart';
 
 class TrackCard extends StatelessWidget {
   final Track track;
@@ -84,14 +86,17 @@ class TrackCard extends StatelessWidget {
                     Expanded(
                       child: ManhwaTextButton.onOceanBlue(
                         title: 'Cancel',
-                        onTap: () {},
+                        onTap: Navigator.of(context).pop,
                       ),
                     ),
                     const SizedBox(width: spacingSmall),
                     Expanded(
                       child: ManhwaTextButton.onOceanBlue(
                         title: 'Delete Track',
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.of(context).pop();
+                          context.read<DeleteTrackCubit>().delete(track.id);
+                        },
                       ),
                     ),
                   ],
