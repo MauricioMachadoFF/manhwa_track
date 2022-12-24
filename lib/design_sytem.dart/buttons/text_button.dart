@@ -7,23 +7,30 @@ class ManhwaTextButton extends StatelessWidget {
     required this.color,
     required this.title,
     required this.onTap,
+    this.leading,
   });
+
   final Color textColor;
   final Color color;
   final String title;
   final VoidCallback onTap;
+  final Widget? leading;
 
   factory ManhwaTextButton.onOceanBlue({
     required String title,
     required VoidCallback onTap,
+    Widget? leading,
   }) {
     return ManhwaTextButton._(
       textColor: white,
       color: oceanBlueDark,
       title: title,
       onTap: onTap,
+      leading: leading,
     );
   }
+
+  bool get _hasLeading => leading != null;
 
   @override
   Widget build(BuildContext context) {
@@ -35,12 +42,21 @@ class ManhwaTextButton extends StatelessWidget {
           color: color,
           borderRadius: BorderRadius.circular(sizeXXL),
         ),
-        child: Text(
-          title,
-          style: TextStyle(
-            color: textColor,
-          ),
-          textAlign: TextAlign.center,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            if (_hasLeading) ...[
+              leading ?? const SizedBox.shrink(),
+              const SizedBox(width: spacingNano),
+            ],
+            Text(
+              title,
+              style: TextStyle(
+                color: textColor,
+              ),
+              textAlign: _hasLeading ? TextAlign.start : TextAlign.center,
+            ),
+          ],
         ),
       ),
     );
