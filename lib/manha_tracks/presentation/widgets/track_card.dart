@@ -26,12 +26,14 @@ class TrackCard extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(track.title),
-              Text('Chapter ${track.chapter}'),
-            ],
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(track.title),
+                Text('Chapter ${track.chapter}'),
+              ],
+            ),
           ),
           Row(
             children: [
