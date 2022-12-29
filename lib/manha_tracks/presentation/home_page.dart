@@ -69,60 +69,59 @@ class _HomePageState extends State<HomePage> {
               builder: (context, state) {
                 return BaseBackgroundGradient(
                   content: Scaffold(
+                    appBar: AppBar(
+                      elevation: 0,
+                      automaticallyImplyLeading: false,
+                      backgroundColor: Colors.transparent,
+                      actions: [
+                        GestureDetector(
+                          onTap: () => Navigator.of(context).pushNamed(
+                            ManhwaRoutes.settings,
+                          ),
+                          child: Container(
+                            margin: const EdgeInsets.only(
+                              right: spacingSmall,
+                            ),
+                            padding: const EdgeInsets.all(spacingQuarck),
+                            decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: pink,
+                            ),
+                            child: const Icon(
+                              Icons.settings,
+                              color: white,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                     backgroundColor: Colors.transparent,
                     body: SafeArea(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
                           horizontal: spacingSmall,
                         ),
-                        child: Stack(
+                        child: Column(
                           children: [
-                            SingleChildScrollView(
-                              child: Column(
-                                children: [
-                                  const SizedBox(height: spacingSmall),
-                                  Align(
-                                    alignment: Alignment.topRight,
-                                    child: GestureDetector(
-                                      onTap: () =>
-                                          Navigator.of(context).pushNamed(
-                                        ManhwaRoutes.settings,
-                                      ),
-                                      child: Container(
-                                        padding:
-                                            const EdgeInsets.all(spacingQuarck),
-                                        decoration: const BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: pink,
-                                        ),
-                                        child: const Icon(
-                                          Icons.settings,
-                                          color: white,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(height: spacingSmall),
-                                  ListView.separated(
-                                    shrinkWrap: true,
-                                    scrollDirection: Axis.vertical,
-                                    itemBuilder: (_, index) => TrackCard(
-                                      track: tracks[index],
-                                    ),
-                                    separatorBuilder: (_, index) =>
-                                        const SizedBox(height: spacingSmall),
-                                    itemCount: tracks.length,
-                                  ),
-                                ],
+                            const SizedBox(height: spacingSmall),
+                            Expanded(
+                              child: ListView.separated(
+                                physics: const AlwaysScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                scrollDirection: Axis.vertical,
+                                itemBuilder: (_, index) => TrackCard(
+                                  track: tracks[index],
+                                ),
+                                separatorBuilder: (_, index) =>
+                                    const SizedBox(height: spacingSmall),
+                                itemCount: tracks.length,
                               ),
                             ),
-                            Align(
-                              alignment: Alignment.bottomCenter,
-                              child: ManhwaTextButton.onOceanBlue(
-                                title: 'New Track',
-                                onTap: () => Navigator.of(context)
-                                    .pushNamed(ManhwaRoutes.trackDetails),
-                              ),
+                            const SizedBox(height: spacingSmall),
+                            ManhwaTextButton.onOceanBlue(
+                              title: 'New Track',
+                              onTap: () => Navigator.of(context)
+                                  .pushNamed(ManhwaRoutes.trackDetails),
                             ),
                           ],
                         ),
