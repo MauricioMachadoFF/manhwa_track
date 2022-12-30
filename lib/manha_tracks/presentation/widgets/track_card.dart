@@ -15,51 +15,76 @@ class TrackCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(spacingSmall),
-      decoration: BoxDecoration(
-        color: white,
-        borderRadius: BorderRadius.circular(
-          spacingNano,
+    return GestureDetector(
+      onTap: () => _goReadTrack(context),
+      child: Container(
+        padding: const EdgeInsets.all(spacingSmall),
+        decoration: BoxDecoration(
+          color: white,
+          borderRadius: BorderRadius.circular(
+            spacingNano,
+          ),
         ),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(track.title),
+                  Text('Chapter ${track.chapter}'),
+                ],
+              ),
+            ),
+            Row(
               children: [
-                Text(track.title),
-                Text('Chapter ${track.chapter}'),
+                ManhwaIconButton(
+                  icon: Icons.edit,
+                  backgroundColor: pink,
+                  iconSize: sizeSmall,
+                  onTap: () {
+                    Navigator.of(context).pushNamed(
+                      ManhwaRoutes.trackDetails,
+                      arguments: track,
+                    );
+                  },
+                ),
+                const SizedBox(width: spacingNano),
+                ManhwaIconButton(
+                  icon: Icons.delete,
+                  backgroundColor: pink,
+                  iconSize: sizeSmall,
+                  onTap: () => _onDelete(context),
+                ),
               ],
             ),
-          ),
-          Row(
-            children: [
-              ManhwaIconButton(
-                icon: Icons.edit,
-                backgroundColor: pink,
-                iconSize: sizeSmall,
-                onTap: () {
-                  Navigator.of(context).pushNamed(
-                    ManhwaRoutes.trackDetails,
-                    arguments: track,
-                  );
-                },
-              ),
-              const SizedBox(width: spacingNano),
-              ManhwaIconButton(
-                icon: Icons.delete,
-                backgroundColor: pink,
-                iconSize: sizeSmall,
-                onTap: () => _onDelete(context),
-              ),
-            ],
-          ),
-        ],
+          ],
+        ),
       ),
     );
+  }
+
+  void _goReadTrack(BuildContext context) {
+    final url = Uri.tryParse(track.url);
+    if (url?.hasAbsolutePath ?? false) {
+      Navigator.of(context).pushNamed(
+        ManhwaRoutes.manhwaReading,
+        arguments: track.url,
+      );
+      return;
+    }
+    String errorMessage = 'Invalid reading url.\nCheck the url format.';
+    if (track.url.isEmpty) {
+      errorMessage = 'No url related to this track.';
+    }
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(errorMessage),
+        duration: const Duration(milliseconds: 1500),
+      ),
+    );
+    return;
   }
 
   void _onDelete(BuildContext context) {
