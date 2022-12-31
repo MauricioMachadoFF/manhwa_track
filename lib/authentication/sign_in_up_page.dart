@@ -33,7 +33,11 @@ class _SignInUpPageState extends State<SignInUpPage> {
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
     _validateEmailPasswordCubit = ValidateEmailPasswordCubit();
-    _signInBloc = SignInBloc(getIt.get());
+    _signInBloc = SignInBloc(
+      registerWithEmailAndPassword: getIt.get(),
+      signInWithEmailAndPassword: getIt.get(),
+      signWithGoogle: getIt.get(),
+    );
   }
 
   @override

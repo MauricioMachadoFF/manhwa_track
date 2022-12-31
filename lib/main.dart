@@ -27,8 +27,10 @@ class _MyAppState extends State<MyApp> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) =>
-              AuthBloc(getIt.get())..add(const AuthEvent.authCheckRequest()),
+          create: (context) => AuthBloc(
+            signOut: getIt.get(),
+            getSignedUser: getIt.get(),
+          )..add(const AuthEvent.authCheckRequest()),
         ),
         BlocProvider<LoadTrackCubit>(
           create: (context) => LoadTrackCubit(

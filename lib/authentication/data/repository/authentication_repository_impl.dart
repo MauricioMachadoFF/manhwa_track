@@ -2,20 +2,19 @@ import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
-import 'package:manhwa_track/authentication/domain/auth_facade_interface.dart';
-import 'package:manhwa_track/authentication/domain/auth_failures.dart';
+import 'package:manhwa_track/authentication/data/repository/mappers/firebase_user_mapper.dart';
+import 'package:manhwa_track/authentication/domain/failures/authentication_failures.dart';
+import 'package:manhwa_track/authentication/domain/repository/authentication_repository.dart';
+import 'package:manhwa_track/authentication/domain/value_objects/auth_vo.dart';
 import 'package:manhwa_track/core/failures.dart';
-import 'package:manhwa_track/authentication/domain/value_objects/password/password_vo.dart';
-import 'package:manhwa_track/authentication/domain/value_objects/email_address/email_address_vo.dart';
 import 'package:manhwa_track/shared/domain/entities/user.dart';
-import './firebase_user_mapper.dart';
 
-@LazySingleton(as: AuthFacadeInterface)
-class FirebaseAuthFacade implements AuthFacadeInterface {
+@LazySingleton(as: AuthenticationRepository)
+class AuthenticationRepositoryImpl implements AuthenticationRepository {
   final FirebaseAuth _firebaseAuth;
   final GoogleSignIn _googleSignIn;
 
-  FirebaseAuthFacade(
+  AuthenticationRepositoryImpl(
     this._firebaseAuth,
     this._googleSignIn,
   );

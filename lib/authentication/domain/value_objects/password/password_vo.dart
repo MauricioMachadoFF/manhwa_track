@@ -1,7 +1,9 @@
-import 'package:manhwa_track/authentication/domain/value_objects/password/password_failures.dart';
+export 'package:manhwa_track/authentication/domain/value_objects/password/password_failures.dart';
 import 'package:manhwa_track/core/failures.dart';
 import 'package:dartz/dartz.dart';
 import 'package:manhwa_track/core/value_object.dart';
+
+import 'password_failures.dart';
 
 class PasswordVO extends ValueObject<String> {
   const PasswordVO._(this.value);

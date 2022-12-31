@@ -1,7 +1,9 @@
 import 'package:dartz/dartz.dart';
-import 'package:manhwa_track/authentication/domain/value_objects/email_address/email_address_failures.dart';
+export 'package:manhwa_track/authentication/domain/value_objects/email_address/email_address_failures.dart';
 import 'package:manhwa_track/core/failures.dart';
 import 'package:manhwa_track/core/value_object.dart';
+
+import 'email_address_failures.dart';
 
 class EmailAddressVO extends ValueObject<String> {
   const EmailAddressVO._(this.value);
