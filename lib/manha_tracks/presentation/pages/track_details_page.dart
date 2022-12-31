@@ -115,46 +115,59 @@ class _TrackDetailsPageState extends State<TrackDetailsPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const SizedBox(height: spacingSmall),
-                      DSTextField(
-                        controller: _titleController,
-                        label: 'Title',
-                        errorMessage: state.titleErrorText,
-                        onEditingComplete: () => _validateTitleField(
-                          context,
-                          _titleController.text,
+                      Expanded(
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              DSTextField(
+                                controller: _titleController,
+                                label: 'Title',
+                                errorMessage: state.titleErrorText,
+                                onEditingComplete: () => _validateTitleField(
+                                  context,
+                                  _titleController.text,
+                                ),
+                              ),
+                              const SizedBox(height: spacingSmall),
+                              DSTextField(
+                                controller: _chapterController,
+                                label: 'Chapter',
+                                errorMessage: state.chapterErrorText,
+                                onEditingComplete: () => _validateChapterField(
+                                  context,
+                                  _chapterController.text,
+                                ),
+                              ),
+                              const SizedBox(height: spacingSmall),
+                              DSTextField(
+                                controller: _urlController,
+                                label: 'URL',
+                                errorMessage: state.urlErrorText,
+                                onEditingComplete: () => _validateUrlField(
+                                  context,
+                                  _urlController.text,
+                                ),
+                              ),
+                              const SizedBox(height: spacingSmall),
+                              const Align(
+                                child: StatusPicker(),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
+                      // const Spacer(),
                       const SizedBox(height: spacingSmall),
-                      DSTextField(
-                        controller: _chapterController,
-                        label: 'Chapter',
-                        errorMessage: state.chapterErrorText,
-                        onEditingComplete: () => _validateChapterField(
-                          context,
-                          _chapterController.text,
-                        ),
-                      ),
-                      const SizedBox(height: spacingSmall),
-                      DSTextField(
-                        controller: _urlController,
-                        label: 'URL',
-                        errorMessage: state.urlErrorText,
-                        onEditingComplete: () => _validateUrlField(
-                          context,
-                          _urlController.text,
-                        ),
-                      ),
-                      const SizedBox(height: spacingSmall),
-                      const Align(
-                        child: StatusPicker(),
-                      ),
-                      const Spacer(),
-                      SizedBox(
-                        width: double.maxFinite,
-                        child: ManhwaTextButton.onOceanBlue(
-                          title:
-                              _isNewTrack ? 'Create New Track' : 'Update Track',
-                          onTap: () => _validateForm(context),
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: SizedBox(
+                          width: double.maxFinite,
+                          child: ManhwaTextButton.onOceanBlue(
+                            title: _isNewTrack
+                                ? 'Create New Track'
+                                : 'Update Track',
+                            onTap: () => _validateForm(context),
+                          ),
                         ),
                       ),
                       const SizedBox(height: spacingSmall),
