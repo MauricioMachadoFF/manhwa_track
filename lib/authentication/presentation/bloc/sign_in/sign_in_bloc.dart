@@ -65,6 +65,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
             emit(_emptyErroState());
           },
           signInWithGoogle: () async {
+            emit(const SignInState.loading());
             final signedInOrFailure = await _authFacade.signInWithGoogle();
             emit(
               signedInOrFailure.fold(
