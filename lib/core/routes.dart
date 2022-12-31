@@ -9,7 +9,7 @@ import 'package:manhwa_track/manha_tracks/presentation/bloc/create_track/create_
 import 'package:manhwa_track/manha_tracks/presentation/bloc/validate_track/validate_track_bloc.dart';
 import 'package:manhwa_track/manha_tracks/presentation/home_page.dart';
 import 'package:manhwa_track/manha_tracks/presentation/pages/track_details_page.dart';
-import 'package:manhwa_track/manha_tracks/presentation/pages/webview_page.dart';
+import 'package:manhwa_track/manha_tracks/presentation/pages/reading_page.dart';
 import 'package:manhwa_track/settings/settings_page.dart';
 import 'package:manhwa_track/splash/splash_page.dart';
 
