@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
-import 'package:manhwa_track/authentication/data/repository/mappers/firebase_user_mapper.dart';
+import 'package:manhwa_track/authentication/data/mappers/firebase_user_mapper.dart';
 import 'package:manhwa_track/authentication/domain/failures/authentication_failures.dart';
 import 'package:manhwa_track/authentication/domain/repository/authentication_repository.dart';
 import 'package:manhwa_track/authentication/domain/value_objects/auth_vo.dart';
