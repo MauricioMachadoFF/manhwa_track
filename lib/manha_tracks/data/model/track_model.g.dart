@@ -9,7 +9,7 @@ part of 'track_model.dart';
 TrackModel _$TrackModelFromJson(Map<String, dynamic> json) => TrackModel(
       id: json['id'] as String,
       title: json['title'] as String,
-      chapter: (json['chapter'] as num).toDouble(),
+      chapter: json['chapter'] as String,
       url: json['url'] as String,
       status: json['status'] as String,
       createdAt: DateTime.parse(json['created_at'] as String),

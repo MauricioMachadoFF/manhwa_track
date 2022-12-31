@@ -35,7 +35,7 @@ class TrackRepositoryImpl implements TrackRepository {
         final dummyTrackEntry = Track(
           id: UniqueIDVO(),
           title: 'Dummy title',
-          chapter: 0,
+          chapter: '0',
           url: '',
           status: 'Dummy',
           createdAt: DateTime.now(),

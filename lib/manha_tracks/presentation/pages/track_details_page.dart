@@ -200,7 +200,7 @@ class _TrackDetailsPageState extends State<TrackDetailsPage> {
           Track(
             id: UniqueIDVO(),
             title: _titleController.text,
-            chapter: double.parse(_chapterController.text),
+            chapter: _chapterController.text,
             url: _urlController.text,
             status: context.read<SelectedStatusCubit>().state.status,
             createdAt: DateTime.now(),
@@ -222,7 +222,7 @@ class _TrackDetailsPageState extends State<TrackDetailsPage> {
           Track(
             id: currentTrack.id,
             title: _titleController.text,
-            chapter: double.parse(_chapterController.text),
+            chapter: _chapterController.text,
             url: _urlController.text,
             status: context.read<SelectedStatusCubit>().state.status,
             createdAt: currentTrack.createdAt,

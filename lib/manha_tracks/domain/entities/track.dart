@@ -4,7 +4,7 @@ import 'package:manhwa_track/shared/domain/value_objects/unique_id/unique_id_vo.
 class Track extends Equatable {
   final UniqueIDVO id;
   final String title;
-  final double chapter;
+  final String chapter;
   final String url;
   final String status;
   final DateTime createdAt;

@@ -7,7 +7,7 @@ part 'track_model.g.dart';
 class TrackModel extends Equatable {
   final String id;
   final String title;
-  final double chapter;
+  final String chapter;
   final String url;
   final String status;
   final DateTime createdAt;
