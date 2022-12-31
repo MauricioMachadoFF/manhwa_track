@@ -1,10 +1,11 @@
 import 'package:manhwa_track/core/failures.dart';
 
-class InvalidChapterNumberFailure extends ValueFailure<String> {
+class ExceedChapterFieldLengthLimit extends ValueFailure<String> {
   final String _failedValue;
-  static const _errorMessage = 'Chapter must only contain digits';
+  static const _errorMessage =
+      'Chapter field con only contain up to 25 characters';
 
-  const InvalidChapterNumberFailure(
+  const ExceedChapterFieldLengthLimit(
     this._failedValue,
   ) : super(
           message: _errorMessage,

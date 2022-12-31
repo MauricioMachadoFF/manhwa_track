@@ -17,12 +17,12 @@ class ChapterVO extends ValueObject<String> {
 }
 
 Either<ValueFailure<String>, String> _validateChapter(String value) {
-  //TODO(Mauricio): See if title has passes char limit
+  const chapterLengthLimit = 25;
   if (value.isEmpty) {
     return Left(EmptyFieldFailure(value));
   }
-  if (num.tryParse(value) == null) {
-    return Left(InvalidChapterNumberFailure(value));
+  if (value.length > chapterLengthLimit) {
+    return Left(ExceedChapterFieldLengthLimit(value));
   }
   return Right(value);
 }
