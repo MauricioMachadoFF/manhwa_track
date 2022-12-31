@@ -70,7 +70,18 @@ class _ManhwaReadingPageState extends State<ManhwaReadingPage> {
             ? const Center(
                 child: CircularProgressIndicator(),
               )
-            : WebViewWidget(controller: _controller),
+            : error
+                ? Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: spacingSmall),
+                    child: Center(
+                      child: Text(
+                        "We cannot open ${widget.url} because we couldn't establish a connection.\nCheck if the URL inserted is valid.",
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  )
+                : WebViewWidget(controller: _controller),
       ),
     );
   }

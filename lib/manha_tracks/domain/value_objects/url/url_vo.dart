@@ -1,6 +1,7 @@
 import 'package:manhwa_track/core/failures.dart';
 import 'package:dartz/dartz.dart';
 import 'package:manhwa_track/core/value_object.dart';
+import 'package:manhwa_track/manha_tracks/domain/value_objects/url/url_failures.dart';
 
 class UrlVO extends ValueObject<String> {
   const UrlVO._(this.value);
@@ -16,9 +17,12 @@ class UrlVO extends ValueObject<String> {
 }
 
 Either<ValueFailure<String>, String> _validateUrl(String value) {
-  //TODO(Mauricio): See if url is safe before allowing to insert
-  if (value.isNotEmpty) {
+  if (value.isEmpty) {
     return Right(value);
   }
-  return Left(EmptyFieldFailure(value));
+  final url = Uri.tryParse(value);
+  if (url?.hasAbsolutePath ?? false) {
+    return Right(value);
+  }
+  return Left(InvalidURL(value));
 }
