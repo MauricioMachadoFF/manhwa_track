@@ -10,6 +10,7 @@ class DSTextField extends StatelessWidget {
   final String? hint;
   final bool hideValue;
   final String? errorMessage;
+  final bool autofocus;
   const DSTextField({
     required this.controller,
     this.autocorrect = false,
@@ -19,6 +20,7 @@ class DSTextField extends StatelessWidget {
     this.hint,
     this.hideValue = false,
     this.errorMessage,
+    this.autofocus = false,
     super.key,
   });
 
@@ -44,6 +46,7 @@ class DSTextField extends StatelessWidget {
           controller: controller,
           autocorrect: autocorrect,
           onEditingComplete: onEditingComplete,
+          autofocus: autofocus,
           onChanged: onChanged,
           obscureText: hideValue,
           cursorColor: peach,

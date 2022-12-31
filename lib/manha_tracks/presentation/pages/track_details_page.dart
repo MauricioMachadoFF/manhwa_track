@@ -92,86 +92,91 @@ class _TrackDetailsPageState extends State<TrackDetailsPage> {
           ),
         ],
         child: BaseBackgroundGradient(
-          content: Scaffold(
-            backgroundColor: Colors.transparent,
-            appBar: AppBar(
-              elevation: 0,
+          content: GestureDetector(
+            onTap: _dismissKeyboard,
+            child: Scaffold(
               backgroundColor: Colors.transparent,
-              leading: ManhwaIconButton(
-                icon: Icons.chevron_left_rounded,
-                iconSize: sizeMedium,
-                iconColor: Colors.black87,
-                onTap: Navigator.of(context).pop,
-              ),
-            ),
-            body: SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: spacingSmall,
+              appBar: AppBar(
+                elevation: 0,
+                backgroundColor: Colors.transparent,
+                leading: ManhwaIconButton(
+                  icon: Icons.chevron_left_rounded,
+                  iconSize: sizeMedium,
+                  iconColor: Colors.black87,
+                  onTap: Navigator.of(context).pop,
                 ),
-                child: BlocBuilder<ValidateTrackBloc, ValidateTrackState>(
-                  builder: (context, state) => Column(
-                    mainAxisSize: MainAxisSize.max,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(height: spacingSmall),
-                      Expanded(
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              DSTextField(
-                                controller: _titleController,
-                                label: 'Title',
-                                errorMessage: state.titleErrorText,
-                                onEditingComplete: () => _validateTitleField(
-                                  context,
-                                  _titleController.text,
+              ),
+              body: SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: spacingSmall,
+                  ),
+                  child: BlocBuilder<ValidateTrackBloc, ValidateTrackState>(
+                    builder: (context, state) => Column(
+                      mainAxisSize: MainAxisSize.max,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: spacingSmall),
+                        Expanded(
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                DSTextField(
+                                  controller: _titleController,
+                                  autofocus: true,
+                                  label: 'Title',
+                                  errorMessage: state.titleErrorText,
+                                  onEditingComplete: () => _validateTitleField(
+                                    context,
+                                    _titleController.text,
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(height: spacingSmall),
-                              DSTextField(
-                                controller: _chapterController,
-                                label: 'Chapter',
-                                errorMessage: state.chapterErrorText,
-                                onEditingComplete: () => _validateChapterField(
-                                  context,
-                                  _chapterController.text,
+                                const SizedBox(height: spacingSmall),
+                                DSTextField(
+                                  controller: _chapterController,
+                                  label: 'Chapter',
+                                  errorMessage: state.chapterErrorText,
+                                  onEditingComplete: () =>
+                                      _validateChapterField(
+                                    context,
+                                    _chapterController.text,
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(height: spacingSmall),
-                              DSTextField(
-                                controller: _urlController,
-                                label: 'URL',
-                                errorMessage: state.urlErrorText,
-                                onEditingComplete: () => _validateUrlField(
-                                  context,
-                                  _urlController.text,
+                                const SizedBox(height: spacingSmall),
+                                DSTextField(
+                                  controller: _urlController,
+                                  label: 'URL',
+                                  errorMessage: state.urlErrorText,
+                                  onEditingComplete: () => _validateUrlField(
+                                    context,
+                                    _urlController.text,
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(height: spacingSmall),
-                              const Align(
-                                child: StatusPicker(),
-                              ),
-                            ],
+                                const SizedBox(height: spacingSmall),
+                                const Align(
+                                  child: StatusPicker(),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      // const Spacer(),
-                      const SizedBox(height: spacingSmall),
-                      Align(
-                        alignment: Alignment.bottomCenter,
-                        child: SizedBox(
-                          width: double.maxFinite,
-                          child: ManhwaTextButton.onOceanBlue(
-                            title: _isNewTrack
-                                ? 'Create New Track'
-                                : 'Update Track',
-                            onTap: () => _validateForm(context),
+                        // const Spacer(),
+                        const SizedBox(height: spacingSmall),
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: SizedBox(
+                            width: double.maxFinite,
+                            child: ManhwaTextButton.onOceanBlue(
+                              title: _isNewTrack
+                                  ? 'Create New Track'
+                                  : 'Update Track',
+                              onTap: () => _validateForm(context),
+                            ),
                           ),
                         ),
-                      ),
-                      const SizedBox(height: spacingSmall),
-                    ],
+                        const SizedBox(height: spacingSmall),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -180,6 +185,14 @@ class _TrackDetailsPageState extends State<TrackDetailsPage> {
         ),
       ),
     );
+  }
+
+  void _dismissKeyboard() {
+    final currentFocus = FocusScope.of(context);
+    if (!currentFocus.hasPrimaryFocus) {
+      currentFocus.unfocus();
+    }
+    return;
   }
 
   void _onCreateNewTrackTap(BuildContext context) {
