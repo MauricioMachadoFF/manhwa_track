@@ -46,6 +46,7 @@ class _MyAppState extends State<MyApp> {
         ),
       ],
       child: BlocBuilder<AuthBloc, AuthState>(
+        //TODO(Mauricio): Initialize l10n properly
         builder: (context, state) => MaterialApp(
           debugShowCheckedModeBanner: true,
           supportedLocales: S.delegate.supportedLocales,
