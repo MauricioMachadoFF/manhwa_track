@@ -4,6 +4,7 @@ import 'package:injectable/injectable.dart';
 import 'package:manhwa_track/core/firestore/firestore_collections.dart';
 import 'package:manhwa_track/core/firestore/firestore_fields.dart';
 import 'package:manhwa_track/core/logger.dart';
+import 'package:manhwa_track/generated/l10n.dart';
 import 'package:manhwa_track/manha_tracks/data/mapper/track_mapper.dart';
 import 'package:manhwa_track/manha_tracks/data/model/track_model.dart';
 import 'package:manhwa_track/manha_tracks/domain/entities/track.dart';
@@ -105,9 +106,9 @@ class TrackRepositoryImpl implements TrackRepository {
   }
 
   Failure _onUnhandledError() {
-    const message = 'Ops! We could not fetch your tracks';
+    final message = S.current.load_tracks_default_error_message;
     Logger().logError(where: 'Data - getAllTracks', message: message);
-    return const UnhandledFailure(message: message);
+    return UnhandledFailure(message: message);
   }
 
   @override
@@ -124,9 +125,9 @@ class TrackRepositoryImpl implements TrackRepository {
           );
       return const None();
     } catch (_) {
-      const message = 'We could not update this track now.';
+      final message = S.current.update_track_error_message;
       Logger().logError(where: 'Data - updateTrack', message: message);
-      return const Some(UnhandledFailure(message: message));
+      return Some(UnhandledFailure(message: message));
     }
   }
 
@@ -142,9 +143,9 @@ class TrackRepositoryImpl implements TrackRepository {
           .delete();
       return const None();
     } catch (_) {
-      const message = 'Failed to delete track. Try again later.';
+      final message = S.current.delete_track_error_message;
       Logger().logError(where: 'Data - updateTrack', message: message);
-      return const Some(UnhandledFailure(message: message));
+      return Some(UnhandledFailure(message: message));
     }
   }
 }

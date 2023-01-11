@@ -9,6 +9,7 @@ import 'package:manhwa_track/core/injection.dart';
 import 'package:manhwa_track/core/routes.dart';
 import 'package:manhwa_track/design_sytem.dart/buttons/text_button.dart';
 import 'package:manhwa_track/design_sytem.dart/design_system.dart';
+import 'package:manhwa_track/generated/l10n.dart';
 import 'package:manhwa_track/shared/presentation/base_background_gradient.dart';
 
 class SignInUpPage extends StatefulWidget {
@@ -133,7 +134,7 @@ class _SignInUpPageState extends State<SignInUpPage> {
                             builder: (context, state) {
                               return DSTextField(
                                 controller: _emailController,
-                                label: 'E-mail',
+                                label: S.current.sign_page_email_field_label,
                                 onEditingComplete: () =>
                                     _validateEmailPasswordCubit
                                         .validateEmail(_email),
@@ -148,7 +149,7 @@ class _SignInUpPageState extends State<SignInUpPage> {
                             builder: (context, state) {
                               return DSTextField(
                                 controller: _passwordController,
-                                label: 'Password',
+                                label: S.current.sign_page_password_field_label,
                                 hideValue: true,
                                 onEditingComplete: () =>
                                     _validateEmailPasswordCubit
@@ -162,7 +163,7 @@ class _SignInUpPageState extends State<SignInUpPage> {
                             children: [
                               Expanded(
                                 child: ManhwaTextButton.onOceanBlue(
-                                  title: 'Sign In',
+                                  title: S.current.sign_in_button_label,
                                   onTap: () => _signIn(_email, _password),
                                 ),
                               ),
@@ -171,7 +172,7 @@ class _SignInUpPageState extends State<SignInUpPage> {
                               ),
                               Expanded(
                                 child: ManhwaTextButton.onOceanBlue(
-                                  title: 'Sign Up',
+                                  title: S.current.sign_up_button_label,
                                   onTap: () => _signUp(_email, _password),
                                 ),
                               ),
@@ -179,7 +180,7 @@ class _SignInUpPageState extends State<SignInUpPage> {
                           ),
                           const SizedBox(height: spacingSmall),
                           ManhwaTextButton.onOceanBlue(
-                            title: 'Sign In with Google',
+                            title: S.current.sign_in_with_google,
                             onTap: _signInWithGoogle,
                             leading: ManhwaImageIcon.google(
                               backgroundColor: white,

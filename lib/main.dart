@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:manhwa_track/authentication/presentation/bloc/auth/auth_bloc.dart';
 import 'package:manhwa_track/core/injection.dart';
 import 'package:manhwa_track/core/routes.dart';
+import 'package:manhwa_track/generated/l10n.dart';
 import 'package:manhwa_track/manha_tracks/presentation/bloc/delete_track/delete_track_cubit.dart';
 import 'package:manhwa_track/manha_tracks/presentation/bloc/load_tracks/load_track_cubit.dart';
 
@@ -47,7 +48,11 @@ class _MyAppState extends State<MyApp> {
       child: BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) => MaterialApp(
           debugShowCheckedModeBanner: true,
-          title: 'Manhwa Track',
+          supportedLocales: S.delegate.supportedLocales,
+          localizationsDelegates: const [
+            S.delegate,
+          ],
+          title: S.current.manhwa_track,
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),

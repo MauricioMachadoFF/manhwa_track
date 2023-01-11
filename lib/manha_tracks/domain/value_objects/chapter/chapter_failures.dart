@@ -1,15 +1,12 @@
 import 'package:manhwa_track/core/failures.dart';
+import 'package:manhwa_track/generated/l10n.dart';
 
 class ExceedChapterFieldLengthLimit extends ValueFailure<String> {
   final String _failedValue;
-  static const _errorMessage =
-      'Chapter field con only contain up to 25 characters';
 
-  const ExceedChapterFieldLengthLimit(
+  ExceedChapterFieldLengthLimit(
     this._failedValue,
-  ) : super(
-          message: _errorMessage,
-        );
+  ) : super(message: S.current.chapter_max_length_error);
 
   @override
   String get failedValue => _failedValue;

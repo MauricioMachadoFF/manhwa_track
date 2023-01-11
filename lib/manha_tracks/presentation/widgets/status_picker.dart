@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:manhwa_track/design_sytem.dart/color.dart';
 import 'package:manhwa_track/design_sytem.dart/spacing/gaps.dart';
-import 'package:manhwa_track/design_sytem.dart/spacing/sizes.dart';
-import 'package:manhwa_track/design_sytem.dart/textfield/textfield.dart';
+import 'package:manhwa_track/generated/l10n.dart';
 import 'package:manhwa_track/manha_tracks/presentation/bloc/selected_status/selected_status_cubit.dart';
 
 class StatusPicker extends StatefulWidget {
@@ -15,10 +14,10 @@ class StatusPicker extends StatefulWidget {
 }
 
 class _StatusPickerState extends State<StatusPicker> {
-  static const List<String> _statusOption = [
-    'Reading',
-    'ReadList',
-    'Completed'
+  final List<String> _statusOption = [
+    S.current.tracking_status_reading,
+    S.current.tracking_status_readlist,
+    S.current.tracking_status_completed,
   ];
   @override
   Widget build(BuildContext context) {

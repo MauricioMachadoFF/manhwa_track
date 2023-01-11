@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:manhwa_track/core/error.dart';
 import 'package:manhwa_track/design_sytem.dart/buttons/text_button.dart';
 import 'package:manhwa_track/design_sytem.dart/design_system.dart';
+import 'package:manhwa_track/generated/l10n.dart';
 import 'package:manhwa_track/manha_tracks/domain/entities/track.dart';
 import 'package:manhwa_track/manha_tracks/presentation/bloc/create_track/create_track_cubit.dart';
 import 'package:manhwa_track/manha_tracks/presentation/bloc/load_tracks/load_track_cubit.dart';
@@ -63,7 +64,8 @@ class _TrackDetailsPageState extends State<TrackDetailsPage> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) {
-        final status = widget.track?.status ?? 'Reading';
+        final status =
+            widget.track?.status ?? S.current.tracking_status_reading;
         return SelectedStatusCubit(status);
       },
       child: MultiBlocListener(
@@ -124,7 +126,8 @@ class _TrackDetailsPageState extends State<TrackDetailsPage> {
                                 DSTextField(
                                   controller: _titleController,
                                   autofocus: true,
-                                  label: 'Title',
+                                  label: S.current
+                                      .track_detail_page_title_field_label,
                                   errorMessage: state.titleErrorText,
                                   onEditingComplete: () => _validateTitleField(
                                     context,
@@ -134,7 +137,8 @@ class _TrackDetailsPageState extends State<TrackDetailsPage> {
                                 const SizedBox(height: spacingSmall),
                                 DSTextField(
                                   controller: _chapterController,
-                                  label: 'Chapter',
+                                  label: S.current
+                                      .track_detail_page_chapter_field_label,
                                   errorMessage: state.chapterErrorText,
                                   onEditingComplete: () =>
                                       _validateChapterField(
@@ -145,7 +149,8 @@ class _TrackDetailsPageState extends State<TrackDetailsPage> {
                                 const SizedBox(height: spacingSmall),
                                 DSTextField(
                                   controller: _urlController,
-                                  label: 'URL',
+                                  label: S.current
+                                      .track_detail_page_url_field_label,
                                   errorMessage: state.urlErrorText,
                                   onEditingComplete: () => _validateUrlField(
                                     context,
@@ -168,8 +173,10 @@ class _TrackDetailsPageState extends State<TrackDetailsPage> {
                             width: double.maxFinite,
                             child: ManhwaTextButton.onOceanBlue(
                               title: _isNewTrack
-                                  ? 'Create New Track'
-                                  : 'Update Track',
+                                  ? S.current
+                                      .track_details_page_create_new_track_label
+                                  : S.current
+                                      .track_details_page_update_track_label,
                               onTap: () => _validateForm(context),
                             ),
                           ),

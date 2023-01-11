@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:manhwa_track/authentication/presentation/bloc/auth/auth_bloc.dart';
 import 'package:manhwa_track/core/routes.dart';
+import 'package:manhwa_track/generated/l10n.dart';
 import 'package:manhwa_track/shared/presentation/base_background_gradient.dart';
 
 import '../design_sytem.dart/design_system.dart';
@@ -45,7 +46,7 @@ class SettingsPage extends StatelessWidget {
                   const SizedBox(height: spacingSmall),
                   _Tile(
                     icon: Icons.logout_rounded,
-                    title: 'Logout',
+                    title: S.current.settings_logout_tile_label,
                     onTap: () => context.read<AuthBloc>().add(
                           const AuthEvent.signOut(),
                         ),

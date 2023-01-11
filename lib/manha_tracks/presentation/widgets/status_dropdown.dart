@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:manhwa_track/generated/l10n.dart';
 import 'package:manhwa_track/manha_tracks/presentation/bloc/selected_status/selected_status_cubit.dart';
 
 class StatusDropdown extends StatefulWidget {
@@ -15,16 +16,21 @@ class StatusDropdown extends StatefulWidget {
   State<StatusDropdown> createState() => StatusDropdownState();
 }
 
-const List<String> statusOption = ['Reading', 'ReadList', 'Completed'];
+final List<String> statusOption = [
+  S.current.tracking_status_reading,
+  S.current.tracking_status_readlist,
+  S.current.tracking_status_completed,
+];
 
 class StatusDropdownState extends State<StatusDropdown> {
   late String _dropdownValue;
 
   @override
   void initState() {
-    _dropdownValue =
-        statusOption.firstWhereOrNull((element) => element == widget.status) ??
-            'Unknown';
+    _dropdownValue = statusOption.firstWhereOrNull(
+          (element) => element == widget.status,
+        ) ??
+        S.current.tracking_status_unknown;
     super.initState();
   }
 

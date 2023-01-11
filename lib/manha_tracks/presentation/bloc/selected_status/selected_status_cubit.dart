@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:manhwa_track/generated/l10n.dart';
 
 part 'selected_status_cubit.freezed.dart';
 part 'selected_status_state.dart';
@@ -14,17 +15,23 @@ class SelectedStatusCubit extends Cubit<SelectedStatusState> {
     switch (status) {
       case 'Reading':
         emit(
-          state.copyWith(status: 'Reading'),
+          state.copyWith(
+            status: S.current.tracking_status_reading,
+          ),
         );
         break;
       case 'ReadList':
         emit(
-          state.copyWith(status: 'ReadList'),
+          state.copyWith(
+            status: S.current.tracking_status_readlist,
+          ),
         );
         break;
       case 'Completed':
         emit(
-          state.copyWith(status: 'Completed'),
+          state.copyWith(
+            status: S.current.tracking_status_completed,
+          ),
         );
         break;
       default:

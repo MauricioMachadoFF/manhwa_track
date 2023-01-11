@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:manhwa_track/core/routes.dart';
 import 'package:manhwa_track/design_sytem.dart/buttons/text_button.dart';
 import 'package:manhwa_track/design_sytem.dart/design_system.dart';
+import 'package:manhwa_track/generated/l10n.dart';
 import 'package:manhwa_track/manha_tracks/domain/entities/track.dart';
 import 'package:manhwa_track/manha_tracks/presentation/bloc/delete_track/delete_track_cubit.dart';
 
@@ -33,7 +34,7 @@ class TrackCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(track.title),
-                  Text('Chapter ${track.chapter}'),
+                  Text(S.current.chapter_prefix + track.chapter),
                 ],
               ),
             ),
@@ -74,9 +75,9 @@ class TrackCard extends StatelessWidget {
       );
       return;
     }
-    String errorMessage = 'Invalid reading url.\nCheck the url format.';
+    String errorMessage = S.current.track_card_invalid_url;
     if (track.url.isEmpty) {
-      errorMessage = 'No url related to this track.';
+      errorMessage = S.current.track_card_empty_url;
     }
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -112,14 +113,14 @@ class TrackCard extends StatelessWidget {
                   children: [
                     Expanded(
                       child: ManhwaTextButton.onOceanBlue(
-                        title: 'Cancel',
+                        title: S.current.cancel,
                         onTap: Navigator.of(context).pop,
                       ),
                     ),
                     const SizedBox(width: spacingSmall),
                     Expanded(
                       child: ManhwaTextButton.onOceanBlue(
-                        title: 'Delete Track',
+                        title: S.current.delete_track,
                         onTap: () {
                           Navigator.of(context).pop();
                           context.read<DeleteTrackCubit>().delete(track.id);
@@ -165,15 +166,15 @@ class _AttentionWarning extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: const [
-        Icon(
+      children: [
+        const Icon(
           Icons.delete_forever_rounded,
           size: sizeBig,
           color: pink,
         ),
-        SizedBox(height: spacingNano),
+        const SizedBox(height: spacingNano),
         Text(
-          'Attention! After deleting this track you cannot retrieve it.',
+          S.current.track_deletion_alert,
           textAlign: TextAlign.center,
         ),
       ],

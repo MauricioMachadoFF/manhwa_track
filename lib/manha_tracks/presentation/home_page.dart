@@ -4,6 +4,7 @@ import 'package:manhwa_track/authentication/presentation/bloc/auth/auth_bloc.dar
 import 'package:manhwa_track/core/routes.dart';
 import 'package:manhwa_track/design_sytem.dart/buttons/text_button.dart';
 import 'package:manhwa_track/design_sytem.dart/design_system.dart';
+import 'package:manhwa_track/generated/l10n.dart';
 import 'package:manhwa_track/manha_tracks/presentation/bloc/delete_track/delete_track_cubit.dart';
 import 'package:manhwa_track/manha_tracks/presentation/bloc/load_tracks/load_track_cubit.dart';
 import 'package:manhwa_track/manha_tracks/presentation/pages/error_page.dart';
@@ -60,11 +61,10 @@ class _HomePageState extends State<HomePage> {
               onTap: () {
                 context.read<LoadTrackCubit>().loadTracks();
               },
-              label: 'Try again',
-              description:
-                  "Ops! Somethign went wrong and we couldn't fetch your manhwa tracks.",
+              label: S.current.try_again,
+              description: S.current.load_tracks_default_error_message,
             ),
-            loading: () => const LoadingPage(label: 'Fetching your tracks'),
+            loading: () => LoadingPage(label: S.current.fetching_tracks),
             loaded: (tracks) => BlocBuilder<DeleteTrackCubit, DeleteTrackState>(
               builder: (context, state) {
                 return BaseBackgroundGradient(
@@ -119,7 +119,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                             const SizedBox(height: spacingSmall),
                             ManhwaTextButton.onOceanBlue(
-                              title: 'New Track',
+                              title: S.current.new_track_button_label,
                               onTap: () => Navigator.of(context)
                                   .pushNamed(ManhwaRoutes.trackDetails),
                             ),

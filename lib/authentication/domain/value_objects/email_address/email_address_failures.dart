@@ -1,14 +1,12 @@
 import 'package:manhwa_track/core/failures.dart';
+import 'package:manhwa_track/generated/l10n.dart';
 
 class InvalidEmailFailure extends ValueFailure<String> {
   final String _failedValue;
-  static const _errorMessage = 'Invalid email';
 
-  const InvalidEmailFailure(
+  InvalidEmailFailure(
     this._failedValue,
-  ) : super(
-          message: _errorMessage,
-        );
+  ) : super(message: S.current.invalid_email);
 
   @override
   String get failedValue => _failedValue;

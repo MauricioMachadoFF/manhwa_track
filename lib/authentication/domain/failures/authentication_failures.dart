@@ -1,20 +1,30 @@
 import 'package:manhwa_track/core/failures.dart';
+import 'package:manhwa_track/generated/l10n.dart';
 
 class CancelledByUserFailure extends Failure {
-  const CancelledByUserFailure()
-      : super(message: 'Authentication operation has been cancelled by user');
+  CancelledByUserFailure()
+      : super(
+          message: S.current.auth_cancelled_by_user,
+        );
 }
 
 class EmailAlreadyInUseFailure extends Failure {
-  const EmailAlreadyInUseFailure() : super(message: 'Email is already in use');
+  EmailAlreadyInUseFailure()
+      : super(
+          message: S.current.email_already_in_use,
+        );
 }
 
 class NoUserWithThatEmailFailure extends Failure {
-  const NoUserWithThatEmailFailure()
-      : super(message: "There's no user with that email");
+  NoUserWithThatEmailFailure()
+      : super(
+          message: S.current.no_user_with_that_email,
+        );
 }
 
 class InvalidEmailAndPasswordCombinationFailure extends Failure {
-  const InvalidEmailAndPasswordCombinationFailure()
-      : super(message: 'Invalid email and password combination');
+  InvalidEmailAndPasswordCombinationFailure()
+      : super(
+          message: S.current.invalid_email_password_combination,
+        );
 }

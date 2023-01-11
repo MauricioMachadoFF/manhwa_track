@@ -6,6 +6,7 @@ import 'package:manhwa_track/authentication/domain/usecases/sign_with_email_and_
 import 'package:manhwa_track/authentication/domain/usecases/sign_with_google.dart';
 import 'package:manhwa_track/authentication/domain/value_objects/email_address/email_address_vo.dart';
 import 'package:manhwa_track/authentication/domain/value_objects/password/password_vo.dart';
+import 'package:manhwa_track/generated/l10n.dart';
 
 part 'sign_in_state.dart';
 part 'sign_in_event.dart';
@@ -94,8 +95,8 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
   }
 
   SignInState _generalErroState() {
-    return const SignInState.error(
-      errorMessage: 'Something went wrong during login',
+    return SignInState.error(
+      errorMessage: S.current.sign_in_general_error,
     );
   }
 

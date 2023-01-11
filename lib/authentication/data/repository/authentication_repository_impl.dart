@@ -7,6 +7,7 @@ import 'package:manhwa_track/authentication/domain/failures/authentication_failu
 import 'package:manhwa_track/authentication/domain/repository/authentication_repository.dart';
 import 'package:manhwa_track/authentication/domain/value_objects/auth_vo.dart';
 import 'package:manhwa_track/core/failures.dart';
+import 'package:manhwa_track/generated/l10n.dart';
 import 'package:manhwa_track/shared/domain/entities/user.dart';
 
 @LazySingleton(as: AuthenticationRepository)
@@ -43,7 +44,7 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
       return right(unit);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {
-        return left(const EmailAlreadyInUseFailure());
+        return left(EmailAlreadyInUseFailure());
       }
       return left(const ServerFailure(message: ''));
     } catch (_) {
@@ -66,9 +67,9 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
       return right(unit);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        return left(const NoUserWithThatEmailFailure());
+        return left(NoUserWithThatEmailFailure());
       } else if (e.code == 'wrong-password') {
-        return left(const InvalidEmailAndPasswordCombinationFailure());
+        return left(InvalidEmailAndPasswordCombinationFailure());
       }
       return left(const ServerFailure(message: ''));
     } catch (e) {
@@ -81,7 +82,7 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
     try {
       final googleUserOrNull = await _googleSignIn.signIn();
       if (googleUserOrNull == null) {
-        return left(const CancelledByUserFailure());
+        return left(CancelledByUserFailure());
       }
       final auth = await googleUserOrNull.authentication;
       final googleProvide = GoogleAuthProvider.credential(
@@ -92,8 +93,8 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
       return right(unit);
     } catch (_) {
       return left(
-        const ServerFailure(
-          message: 'Something went wrong in you login. Please try again later',
+        ServerFailure(
+          message: S.current.sign_in_general_error,
         ),
       );
     }

@@ -1,14 +1,12 @@
 import 'package:manhwa_track/core/failures.dart';
+import 'package:manhwa_track/generated/l10n.dart';
 
 class ShortPasswordFailure extends ValueFailure<String> {
   final String _failedValue;
-  static const _errorMessage = 'Password must be a least 8 characters long';
 
-  const ShortPasswordFailure(
+  ShortPasswordFailure(
     this._failedValue,
-  ) : super(
-          message: _errorMessage,
-        );
+  ) : super(message: S.current.password_should_be_8_char_long);
 
   @override
   String get failedValue => _failedValue;

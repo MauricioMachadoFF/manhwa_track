@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:manhwa_track/generated/l10n.dart';
 import 'package:manhwa_track/shared/presentation/base_background_gradient.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -76,7 +77,7 @@ class _ManhwaReadingPageState extends State<ManhwaReadingPage> {
                         const EdgeInsets.symmetric(horizontal: spacingSmall),
                     child: Center(
                       child: Text(
-                        "We cannot open ${widget.url} because we couldn't establish a connection.\nCheck if the URL inserted is valid.",
+                        S.current.reading_page_error_opening_url(widget.url),
                         textAlign: TextAlign.center,
                       ),
                     ),
