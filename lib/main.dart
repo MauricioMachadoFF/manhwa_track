@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:manhwa_track/authentication/presentation/bloc/auth/auth_bloc.dart';
 import 'package:manhwa_track/core/injection.dart';
 import 'package:manhwa_track/core/routes.dart';
@@ -12,6 +16,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   configureDependecies();
   await Firebase.initializeApp();
+  await S.load(Locale(Platform.localeName));
   runApp(const MyApp());
 }
 
@@ -46,12 +51,15 @@ class _MyAppState extends State<MyApp> {
         ),
       ],
       child: BlocBuilder<AuthBloc, AuthState>(
-        //TODO(Mauricio): Initialize l10n properly
         builder: (context, state) => MaterialApp(
           debugShowCheckedModeBanner: true,
           supportedLocales: S.delegate.supportedLocales,
           localizationsDelegates: const [
             S.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+            DefaultCupertinoLocalizations.delegate,
           ],
           title: S.current.manhwa_track,
           theme: ThemeData(
