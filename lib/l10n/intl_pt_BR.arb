@@ -12,7 +12,7 @@
     "cancel": "Cancelar",
     "delete_track": "Excluir faixa",
     "track_deletion_alert": "Atenção! Caso você delete essa faixa não conseguirá recuperar ela.",
-    "chapter_prefix": "Capítulo",
+    "chapter_prefix": "Capítulo - {chapter}",
     "reading_page_error_opening_url": "Nós não conseguimos abrir {url}. Não conseguimos estabelecer uma conexão.\nCheck if the URL inserted is valid.",
     "track_detail_page_title_field_label": "Título",
     "track_detail_page_chapter_field_label": "Capítulo",

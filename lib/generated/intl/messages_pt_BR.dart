@@ -20,7 +20,9 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'pt_BR';
 
-  static String m0(url) =>
+  static String m0(chapter) => "Capítulo - ${chapter}";
+
+  static String m1(url) =>
       "Nós não conseguimos abrir ${url}. Não conseguimos estabelecer uma conexão.\nCheck if the URL inserted is valid.";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
@@ -30,7 +32,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "cancel": MessageLookupByLibrary.simpleMessage("Cancelar"),
         "chapter_max_length_error": MessageLookupByLibrary.simpleMessage(
             "Capítulo só pode conter até 25 caracteres"),
-        "chapter_prefix": MessageLookupByLibrary.simpleMessage("Capítulo"),
+        "chapter_prefix": m0,
         "delete_track": MessageLookupByLibrary.simpleMessage("Excluir faixa"),
         "delete_track_error_message": MessageLookupByLibrary.simpleMessage(
             "Falha em deletar faixa. Tente novamente mais tarde."),
@@ -55,7 +57,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Não existe usuário com esse e-mail"),
         "password_should_be_8_char_long": MessageLookupByLibrary.simpleMessage(
             "Senha deve ter no mínimo 8 caracteres"),
-        "reading_page_error_opening_url": m0,
+        "reading_page_error_opening_url": m1,
         "settings_logout_tile_label":
             MessageLookupByLibrary.simpleMessage("Logout"),
         "sign_in_button_label": MessageLookupByLibrary.simpleMessage("Login"),

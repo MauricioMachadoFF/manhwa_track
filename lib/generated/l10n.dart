@@ -180,13 +180,13 @@ class S {
     );
   }
 
-  /// `Chapter`
-  String get chapter_prefix {
+  /// `Chapter - {chapter}`
+  String chapter_prefix(Object chapter) {
     return Intl.message(
-      'Chapter',
+      'Chapter - $chapter',
       name: 'chapter_prefix',
       desc: '',
-      args: [],
+      args: [chapter],
     );
   }
 

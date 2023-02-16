@@ -34,7 +34,7 @@ class TrackCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(track.title),
-                  Text(S.current.chapter_prefix + track.chapter),
+                  Text(S.current.chapter_prefix(track.chapter)),
                 ],
               ),
             ),

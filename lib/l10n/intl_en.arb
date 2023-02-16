@@ -12,7 +12,7 @@
     "cancel": "Cancel",
     "delete_track": "Delete track",
     "track_deletion_alert": "Attention! After deleting this track you cannot retrieve it.",
-    "chapter_prefix": "Chapter",
+    "chapter_prefix": "Chapter - {chapter}",
     "reading_page_error_opening_url": "We cannot open {url} because we couldn't establish a connection.\nCheck if the URL inserted is valid.",
     "track_detail_page_title_field_label": "Title",
     "track_detail_page_chapter_field_label": "Chapter",
